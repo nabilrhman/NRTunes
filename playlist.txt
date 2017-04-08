@@ -1,0 +1,80 @@
+Classical
+A Classical Artist
+00:04
+sounds/classical.wav
+Eighties Jam
+Some 80's band
+3:00
+sounds/eightiesJam.wav
+New Age
+Javya
+04:01
+sounds/newAgeRythm.wav
+Hitchcock
+The Birds
+09:21
+sounds/hitchcock.wav
+My Truck is Dirty
+George Crooked
+5:00
+sounds/westernBeat.wav
+Symphony No 5
+A Classical Artist
+00:05
+sounds/classical.wav
+Big Hair
+Some 80's band
+3:00
+sounds/eightiesJam.wav
+Java Man
+Javya
+00:14
+sounds/newAgeRythm.wav
+Vertigo
+The Birds
+01:21
+sounds/hitchcock.wav
+Out in the Sticks
+George Crooked
+5:00
+sounds/westernBeat.wav
+Canon in D
+A Classical Artist
+04:50
+sounds/classical.wav
+Loopdy Loop
+Some 80's band
+00:31
+sounds/eightiesJam.wav
+Oxygene
+Javya
+00:43
+sounds/newAgeRythm.wav
+Rear Window
+The Birds
+00:10
+sounds/hitchcock.wav
+Ring of Fire
+George Crooked
+00:05
+sounds/westernBeat.wav
+Air on Strings
+A Classical Artist
+01:15
+sounds/classical.wav
+Let's Dance
+Some 80's band
+3:00
+sounds/eightiesJam.wav
+Aqua Nights
+Javya
+00:14
+sounds/newAgeRythm.wav
+Rope
+The Birds
+00:10
+sounds/hitchcock.wav
+Boogie Woogie
+George Crooked
+00:53
+sounds/westernBeat.wav
