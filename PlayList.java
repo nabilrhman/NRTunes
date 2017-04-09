@@ -1,13 +1,15 @@
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Scanner;
 /**
  * This class manages songs in a simplified play list.
  * @author Nabil Rahman
  *
  */
-public class PlayList 
+public class PlayList implements MyTunesPlayListInterface
 {
 	private String name;
 	private Song playing;
@@ -238,5 +240,84 @@ public class PlayList
 		playListInfo += "\n------------------";
 		
 		return playListInfo;
+	}
+
+	@Override
+	public void loadFromFile(File file)
+	{
+		if(file.exists()) {
+			try {
+					Scanner scan = new Scanner(file);
+					while(scan.hasNextLine()) 
+					{
+						String title = scan.nextLine().trim();
+						String artist = scan.nextLine().trim();
+						
+						//Converts playTime from Minute Second format to int
+						String songPlayTimeInMinSecFormat = scan.nextLine().trim;
+						String songPlayMinutes = songPlayTimeInMinSecFormat.substring(0, songPlayTimeInMinSecFormat.indexOf(':'));
+						String songPlaySeconds = songPlayTimeInMinSecFormat.substring(songPlayTimeInMinSecFormat.indexOf(':') + 1);
+						int playTime =  Integer.parseInt(songPlayMinutes) * 60 + Integer.parseInt(songPlaySeconds);
+						
+						String filePath = scan.next().trim();
+						Song song = new Song(title, artist, playTime, filePath);
+						songList.add(song);
+				}
+				scan.close();
+			} catch(FileNotFoundException e) {
+				System.err.println("Could not read the playlist file: " + e.getMessage());
+			}
+		} else {
+			System.err.println("Playlist not found:: " + file);
+		}
+		
+	}
+
+	@Override
+	public void playSong(Song song)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stop()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Song[] getSongArray()
+	{
+		// TODO Auto-generated method stub
+		Song[] copy = new Song[songList.size()];
+
+		for(int i = 0; i < copy.length; i++)
+		{
+			copy[i] = songList.get(i);
+		}
+		return copy;
+	}
+
+	@Override
+	public int moveUp(int index)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int moveDown(int index)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Song[][] getSongSquare()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
