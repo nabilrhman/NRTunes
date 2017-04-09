@@ -1,6 +1,9 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -36,52 +39,21 @@ public class MyTunesGUIPanel extends JPanel
 		playList = new PlayList("New", "playlist.txt");
 		// The entire frame will have a BorderLayout (we will be adding more to it
 		// in the next lab).
-		//setLayout(new BorderLayout());
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		// All of your work in this lab will go in the left panel. 
-		// The right panel will be added in the next lab.
-		JPanel leftPanel = new JPanel();
-		JPanel rightPanel = new JPanel();
+		this.setBackground(Color.BLACK);
+		this.setLayout(new GridBagLayout());
 		
-		//leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		this.add(leftPanel);
-		this.add(rightPanel);
-		
-		
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		
-		JPanel leftTopPanel = new JPanel();
-		leftTopPanel.setBackground(Style.ACCENT_COLOR);
-		JPanel leftBottomPanel = new JPanel();
-		
-		leftPanel.add(leftTopPanel);
-		leftPanel.add(leftBottomPanel);
-		
-		JPanel songControlPanel = new JPanel();
-		songControlPanel.setLayout(new BoxLayout(songControlPanel, BoxLayout.Y_AXIS));
-		songControlPanel.setAlignmentX(LEFT_ALIGNMENT);
-		leftTopPanel.add(songControlPanel);
+		GridBagConstraints gridBagConstraints = new GridBagConstraints();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
 		
 		nowPlayingLabel = new JLabel("Now playing");
-		//nowPlayingLabel.setAlignmentX(LEFT_ALIGNMENT);
-		nowPlayingSongNameLabel = new JLabel("Song Name");
-		//nowPlayingLabel.setAlignmentX(LEFT_ALIGNMENT);
-		//nowPlayingLabel.setAlignmentX(LEFT_ALIGNMENT);
-		
-		songControlPanel.add(nowPlayingLabel);
-		songControlPanel.add(nowPlayingSongNameLabel);
+		this.add(nowPlayingLabel, gridBagConstraints); 
 		
 		
-		// TODO: Instantiate the JList<Photo> photoList object (declared above) and
-		//      set the list data to album.getPhotoArray().
-		//      Set the selected index of the photoList to position 0 to select the
-		//      first photo by default.
-		uiSongList = new JList<Song>();
-		uiSongList.setListData(playList.getSongArray());
-		uiSongList.setFont(new Font("monospaced", Font.PLAIN, 14) );
-		uiSongList.setSelectedIndex(0);
-		uiSongList.setAl
-		leftBottomPanel.add(uiSongList);
-
+		
+		
+		
+		
+		
 	}
 }
