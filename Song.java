@@ -18,6 +18,7 @@ import java.net.URL;
  * </pre>
  *
  * @author CS121 Instructors 
+ * @author Nabil Rahman
  */
 public class Song
 {
@@ -46,9 +47,11 @@ public class Song
 		this.playCount = 0;
 
 		String fullPath = new File(filePath).getAbsolutePath();
-		try {
+		try 
+		{
 			this.clip = Applet.newAudioClip(new URL("file:" + fullPath));
-		} catch(Exception e) {
+		} catch(Exception e) 
+		{
 			System.out.println("Error loading sound clip for " + fullPath);
 			System.out.println(e.getMessage());
 		}
@@ -56,7 +59,7 @@ public class Song
 
 	/**
 	 * Returns the title of this <code>Song</code>.
-	 * @return the title
+	 * @return The title
 	 */
 	public String getTitle()
 	{
@@ -65,7 +68,7 @@ public class Song
 	
 	/**
 	 * Title name mutator.
-	 * @param title -  the title of the song
+	 * @param Title The title of the song
 	 */
 	public void setTitle(String title)
 	{
@@ -74,7 +77,7 @@ public class Song
 
 	/**
 	 * Returns the artist of this <code>Song</code>.
-	 * @return the artist
+	 * @return The artist
 	 */
 	public String getArtist()
 	{
@@ -83,7 +86,7 @@ public class Song
 	
 	/**
 	 * Artist name mutator.
-	 * @param artist - the artist of the song
+	 * @param artist The artist of the song
 	 */
 	public void setArtist(String artist)
 	{
@@ -92,7 +95,7 @@ public class Song
 
 	/**
 	 * Returns the play time of this <code>Song</code> in seconds.
-	 * @return the playTime
+	 * @return The playTime
 	 */
 	public int getPlayTime()
 	{
@@ -101,7 +104,7 @@ public class Song
 	
 	/**
 	 * Play time mutator.
-	 * @param playTime - the play time of the song
+	 * @param playTime The play time of the song
 	 */
 	public void setPlayTime(int playTime)
 	{
@@ -110,7 +113,7 @@ public class Song
 	
 	/**
 	 * Returns the file path of this <code>Song</code>.
-	 * @return the filePath
+	 * @return The filePath
 	 */
 	public String getFilePath()
 	{
@@ -119,7 +122,7 @@ public class Song
 	
 	/**
 	 * File path mutator.
-	 * @param filePath - the file path of the song
+	 * @param filePath The file path of the song
 	 */
 	public void setFilePath(String filePath)
 	{
@@ -127,8 +130,8 @@ public class Song
 	}
 	
 	/**
-	 * Returns the number of times this song has been played.
-	 * @return the count 
+	 * Returns The number of times this song has been played.
+	 * @return The count 
 	 */
 	public int getPlayCount()
 	{
@@ -142,7 +145,8 @@ public class Song
 	 */
 	public void play()
 	{
-		if(clip != null) {
+		if(clip != null) 
+		{
 			clip.play();
 			playCount++;
 		}
@@ -153,7 +157,8 @@ public class Song
 	 */
 	public void stop()
 	{
-		if(clip != null) {
+		if(clip != null) 
+		{
 			clip.stop();
 		}
 	}
