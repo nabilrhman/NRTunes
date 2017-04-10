@@ -1,9 +1,13 @@
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -30,25 +34,77 @@ public class MyTunesGUIPanel extends JPanel
 	private JList<Song> uiSongList;
 
 	private JLabel nowPlayingLabel;
-	private JLabel nowPlayingSongNameLabel;  // Displays the image icon inside of the preview panel
-	private JButton nextButton; // Selects the next image in the photoList
-	private JButton prevButton; // Selects the previous image in the photoList */
+	private JLabel nowPlayingTitleLabel; 
+	private JLabel nowPlayingArtistLabel;
+	
+	private JPanel leftPanel;
+	
+	private JPanel songInfoPanel;
+	private JPanel playerControlPanel;
+	
+	private JPanel songInfoPanelWrapper;
+	
+	private JButton playButton;
+	private JButton pauseButton;
+	private JButton nextButton;
+	private JButton previousButton;
+	
+	private JPanel musicSquarePanel;
 	
 	public MyTunesGUIPanel()
 	{
 		playList = new PlayList("New", "playlist.txt");
+		uiSongList = new JList();
+		uiSongList.setListData(playList.getSongArray());
+		uiSongList.setFont(Style.LIST_FONT);
+		uiSongList.setForeground(Style.PRIMARY_FONT_COLOR);
+		uiSongList.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+		uiSongList.setSelectionBackground(Style.SECONDARY_BACKBROUND_COLOR);
+		uiSongList.setSelectionForeground(Style.PRIMARY_FONT_COLOR);
+		uiSongList.setFixedCellHeight(Style.LIST_ITEM_HEIGHT);
+		
+		JScrollPane scrollPane = new JScrollPane(uiSongList,
+				 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+				 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
 		// The entire frame will have a BorderLayout (we will be adding more to it
 		// in the next lab).
-		this.setBackground(Color.BLACK);
-		this.setLayout(new GridBagLayout());
+		this.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+		this.setLayout(new BorderLayout());
 		
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
+		songInfoPanel = new JPanel();
+		
+		songInfoPanel.setLayout(new BoxLayout(songInfoPanel, BoxLayout.Y_AXIS));
+				
+		songInfoPanel.setBackground(Style.ACCENT_COLOR);
 		
 		nowPlayingLabel = new JLabel("Now playing");
-		this.add(nowPlayingLabel, gridBagConstraints); 
+		nowPlayingLabel.setForeground(Style.PRIMARY_FONT_COLOR);
 		
+		nowPlayingTitleLabel = new JLabel("Song Title");
+		nowPlayingTitleLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		nowPlayingArtistLabel = new JLabel("Song Artist");
+		nowPlayingArtistLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		songInfoPanel.add(nowPlayingLabel);
+		songInfoPanel.add(nowPlayingTitleLabel);
+		songInfoPanel.add(nowPlayingArtistLabel);
+		
+		leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		leftPanel.setMaximumSize(Style.SONG_INFO_PANEL_DIMENSION);
+		leftPanel.add(songInfoPanel);
+		leftPanel.add(scrollPane);
+		
+		musicSquarePanel =  new JPanel();
+		musicSquarePanel.setLayout(new GridLayout(4, 4));
+		nextButton = new JButton();
+		nextButton.setMinimumSize(Style.MUSIC_SQUARE_DIMENSION);
+		musicSquarePanel.add(nextButton);
+		musicSquarePanel.add(nextButton);
+		
+		this.add(leftPanel, BorderLayout.CENTER);
+		this.add(musicSquarePanel, BorderLayout.EAST);
+		//this.add(scrollPane, BorderLayout.PAGE_END);
 		
 		
 		

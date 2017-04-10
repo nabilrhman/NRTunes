@@ -28,6 +28,7 @@ public class MyTunesGUI
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(new MyTunesGUIPanel());
 		frame.setPreferredSize(new Dimension(1200, 650));
+		frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
 	}
