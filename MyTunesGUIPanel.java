@@ -19,10 +19,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class MyTunesGUIPanel extends JPanel
@@ -52,7 +55,7 @@ public class MyTunesGUIPanel extends JPanel
 	private JPanel musicSquarePanel;
 	
 	public MyTunesGUIPanel()
-	{
+	{	/*
 		playList = new PlayList("New", "playlist.txt");
 		uiSongList = new JList();
 		uiSongList.setListData(playList.getSongArray());
@@ -67,31 +70,42 @@ public class MyTunesGUIPanel extends JPanel
 				 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
 				 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
+		JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
+		scrollBar.setPreferredSize(new Dimension(10, 0));
+		scrollBar.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+		//scrollBar.setForeground(Style.SECONDARY_BACKBROUND_COLOR);
+		
 		// The entire frame will have a BorderLayout (we will be adding more to it
 		// in the next lab).
 		this.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
-		this.setLayout(new BorderLayout());
-		
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints gridBagConstraints = new GridBagConstraints();
+		*/
+		/*
 		songInfoPanel = new JPanel();
 		
-		songInfoPanel.setLayout(new BoxLayout(songInfoPanel, BoxLayout.Y_AXIS));
-				
+		//songInfoPanel.setLayout(new BoxLayout(songInfoPanel, BoxLayout.Y_AXIS));
+		songInfoPanel.setLayout(new MigLayout("insets 0"));		
 		songInfoPanel.setBackground(Style.ACCENT_COLOR);
 		
 		nowPlayingLabel = new JLabel("Now playing");
 		nowPlayingLabel.setForeground(Style.PRIMARY_FONT_COLOR);
 		
-		nowPlayingTitleLabel = new JLabel("Song Title");
+		nowPlayingTitleLabel = new JLabel("SONG TITLE");
+		nowPlayingTitleLabel.setFont(Style.HEADING1_FONT);
 		nowPlayingTitleLabel.setForeground(Style.PRIMARY_FONT_COLOR);
 		nowPlayingArtistLabel = new JLabel("Song Artist");
+		nowPlayingArtistLabel.setBackground(Style.ACCENT_COLOR);
+		nowPlayingArtistLabel.setOpaque(true);
+		
 		nowPlayingArtistLabel.setForeground(Style.PRIMARY_FONT_COLOR);
 		songInfoPanel.add(nowPlayingLabel);
 		songInfoPanel.add(nowPlayingTitleLabel);
 		songInfoPanel.add(nowPlayingArtistLabel);
 		
 		leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		leftPanel.setMaximumSize(Style.SONG_INFO_PANEL_DIMENSION);
+		leftPanel.setLayout(new MigLayout("insets 0"));
+		//leftPanel.setMaximumSize(Style.SONG_INFO_PANEL_DIMENSION);
 		leftPanel.add(songInfoPanel);
 		leftPanel.add(scrollPane);
 		
@@ -102,14 +116,54 @@ public class MyTunesGUIPanel extends JPanel
 		musicSquarePanel.add(nextButton);
 		musicSquarePanel.add(nextButton);
 		
-		this.add(leftPanel, BorderLayout.CENTER);
-		this.add(musicSquarePanel, BorderLayout.EAST);
-		//this.add(scrollPane, BorderLayout.PAGE_END);
+		this.add(leftPanel);
+		//this.add(musicSquarePanel, BorderLayout.EAST);
+		
+		*/
+		/*
+		gridBagConstraints.fill = GridBagConstraints.BOTH;
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 1;
+		songInfoPanel = new JPanel();
+		songInfoPanel.setLayout(new BoxLayout(songInfoPanel, BoxLayout.Y_AXIS));
+		songInfoPanel.setBackground(Style.ACCENT_COLOR);
+		
+		nowPlayingLabel = new JLabel("Now playing");
+		nowPlayingLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		
+		nowPlayingTitleLabel = new JLabel("SONG TITLE");
+		nowPlayingTitleLabel.setFont(Style.HEADING1_FONT);
+		nowPlayingTitleLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		nowPlayingArtistLabel = new JLabel("Song Artist");
+		nowPlayingArtistLabel.setBackground(Style.ACCENT_COLOR);
+		nowPlayingArtistLabel.setOpaque(true);
+		
+		nowPlayingArtistLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		
+		songInfoPanel.add(nowPlayingLabel);
+		songInfoPanel.add(nowPlayingTitleLabel);
+		songInfoPanel.add(nowPlayingArtistLabel);
+		
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 0;
+		
+		this.add(songInfoPanel);
+		
+		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraints.gridx = 1;
+		gridBagConstraints.gridy = 1;
+		this.add(scrollPane);
 		
 		
-		
-		
-		
+		gridBagConstraints.fill = GridBagConstraints.VERTICAL;
+		gridBagConstraints.gridx = 2;
+		gridBagConstraints.gridy = 2;
+		musicSquarePanel =  new JPanel();
+		musicSquarePanel.setLayout(new GridLayout(4, 4));
+		this.add(musicSquarePanel);	
+
+		*/
 		
 	}
 }

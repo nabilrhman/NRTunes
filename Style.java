@@ -12,4 +12,6 @@ public final class Style
 	public static final int LIST_ITEM_HEIGHT = 30;
 	public static final Dimension SONG_INFO_PANEL_DIMENSION = new Dimension(0, 100);
 	public static final Dimension MUSIC_SQUARE_DIMENSION = new Dimension(100, 100);
+	
+	public static final Font HEADING1_FONT = new Font("arial", Font.BOLD, 16);
 }
