@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -53,9 +55,16 @@ public class MyTunesGUIPanel extends JPanel
 	private JButton previousButton;
 	
 	private JPanel musicSquarePanel;
+	private JButton[][] musicSquareButtons;
 	
 	public MyTunesGUIPanel()
-	{	/*
+	{	
+		
+		//UIManager.put(this.getBackground(), Style.SECONDARY_BACKBROUND_COLOR);
+		this.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+		
+		this.setLayout(new BorderLayout());
+		
 		playList = new PlayList("New", "playlist.txt");
 		uiSongList = new JList();
 		uiSongList.setListData(playList.getSongArray());
@@ -66,21 +75,96 @@ public class MyTunesGUIPanel extends JPanel
 		uiSongList.setSelectionForeground(Style.PRIMARY_FONT_COLOR);
 		uiSongList.setFixedCellHeight(Style.LIST_ITEM_HEIGHT);
 		
-		JScrollPane scrollPane = new JScrollPane(uiSongList,
+		JScrollPane playlistScrollPane = new JScrollPane(uiSongList,
 				 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
 				 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
+		JScrollBar scrollBar = playlistScrollPane.getVerticalScrollBar();
 		scrollBar.setPreferredSize(new Dimension(10, 0));
+		
+		//playlistScrollPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 		scrollBar.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+		
+		
+		songInfoPanel = new JPanel();
+		
+		//songInfoPanel.setLayout(new BoxLayout(songInfoPanel, BoxLayout.Y_AXIS));
+		//songInfoPanel.setLayout();		
+		songInfoPanel.setBackground(Style.ACCENT_COLOR);
+		
+		nowPlayingLabel = new JLabel("Now playing");
+		nowPlayingLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		
+		nowPlayingTitleLabel = new JLabel("SONG TITLE");
+		nowPlayingTitleLabel.setFont(Style.HEADING1_FONT);
+		nowPlayingTitleLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		nowPlayingArtistLabel = new JLabel("Song Artist");
+		nowPlayingArtistLabel.setBackground(Style.ACCENT_COLOR);
+		nowPlayingArtistLabel.setOpaque(true);
+		
+		nowPlayingArtistLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		songInfoPanel.add(nowPlayingLabel);
+		songInfoPanel.add(nowPlayingTitleLabel);
+		songInfoPanel.add(nowPlayingArtistLabel);
+		
+		musicSquarePanel =  new JPanel();
+		musicSquarePanel.setLayout(new GridLayout(4, 4));
+		nextButton = new JButton();
+		nextButton.setMinimumSize(Style.MUSIC_SQUARE_DIMENSION);
+		musicSquarePanel.add(nextButton);
+		musicSquarePanel.add(nextButton);
+		
+		
+		leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		//leftPanel.setMaximumSize(Style.SONG_INFO_PANEL_DIMENSION);
+		//leftPanel.add(songInfoPanel);
+		leftPanel.add(songInfoPanel);
+		leftPanel.add(playlistScrollPane);
+		
+		this.add(leftPanel, BorderLayout.CENTER);
+		
+		
+		//GRID
+		
+		musicSquareButtons = new JButton[playList.getSongSquare().length][playList.getSongSquare().length];
+		for (int row = 0; row < musicSquareButtons.length; row++)
+		{
+			for(int col = 0; col < musicSquareButtons[row].length; col++)
+			{
+				musicSquareButtons[row][col] = new JButton();
+				//musicSquareButtons[row][col].addActionListener(new PhotoSquareListener());
+				try 
+				{
+					musicSquareButtons[row][col].setText(playList.getSongSquare()[row][col].getTitle());
+				} catch (Exception ex) 
+				{
+					//musicSquareButtons[row][col].setIcon(null);
+				}
+			}
+		}
+		
+		JPanel musicSquarePanel = new JPanel();
+		musicSquarePanel.setLayout(new GridLayout(playList.getSongSquare().length, playList.getSongSquare().length));
+		
+		for (int row = 0; row < musicSquareButtons.length; row++)
+		{
+			for(int col = 0; col < musicSquareButtons[row].length; col++)
+			{
+				musicSquarePanel.add(musicSquareButtons[row][col]);
+			}
+		}
+		
+		this.add(musicSquarePanel, BorderLayout.EAST);
+		//.............................
+		
 		//scrollBar.setForeground(Style.SECONDARY_BACKBROUND_COLOR);
 		
 		// The entire frame will have a BorderLayout (we will be adding more to it
 		// in the next lab).
-		this.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		*/
+		
+		//GridBagConstraints gridBagConstraints = new GridBagConstraints();
+		
 		/*
 		songInfoPanel = new JPanel();
 		
@@ -103,11 +187,7 @@ public class MyTunesGUIPanel extends JPanel
 		songInfoPanel.add(nowPlayingTitleLabel);
 		songInfoPanel.add(nowPlayingArtistLabel);
 		
-		leftPanel = new JPanel();
-		leftPanel.setLayout(new MigLayout("insets 0"));
-		//leftPanel.setMaximumSize(Style.SONG_INFO_PANEL_DIMENSION);
-		leftPanel.add(songInfoPanel);
-		leftPanel.add(scrollPane);
+		
 		
 		musicSquarePanel =  new JPanel();
 		musicSquarePanel.setLayout(new GridLayout(4, 4));

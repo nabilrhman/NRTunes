@@ -353,6 +353,34 @@ public class PlayList implements MyTunesPlayListInterface
 	public Song[][] getSongSquare()
 	{
 		// TODO Auto-generated method stub
-		return null;
+		
+		int NCOLS = 0;
+		
+		int number = songList.size();
+		
+		double sqrt = Math.sqrt(number);
+		
+		if(Math.pow((int) Math.sqrt(number), 2) == number)
+		{
+			NCOLS = (int) Math.sqrt(number);
+		}
+		else
+		{
+			NCOLS = (int) Math.ceil(sqrt);
+		}
+		
+		final int NROWS = NCOLS;
+		final int MAXVAL= songList.size();
+		
+		Song[][] grid = new Song[NROWS][NCOLS];
+		for (int row = 0; row < grid.length; row++)
+		{
+			for(int col = 0; col < grid[row].length; col++)
+			{
+				grid[row][col] = songList.get((col + row * grid[row].length) % (MAXVAL));
+			}
+		}
+		return grid;
+		
 	}
 }

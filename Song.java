@@ -169,7 +169,7 @@ public class Song
 	@Override
 	public String toString()
 	{
-		return String.format("%-20s %-20s %-25s %10d",
+		return String.format(" " + "%-20s %-20s %-25s %10d",
 				title, artist, filePath, playTime);
 	}
 }
