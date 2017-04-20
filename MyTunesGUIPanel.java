@@ -106,14 +106,14 @@ public class MyTunesGUIPanel extends JPanel
 		songInfoPanel.add(nowPlayingLabel);
 		songInfoPanel.add(nowPlayingTitleLabel);
 		songInfoPanel.add(nowPlayingArtistLabel);
-		
+		/*
 		musicSquarePanel =  new JPanel();
 		musicSquarePanel.setLayout(new GridLayout(4, 4));
 		nextButton = new JButton();
 		nextButton.setMinimumSize(Style.MUSIC_SQUARE_DIMENSION);
 		musicSquarePanel.add(nextButton);
 		musicSquarePanel.add(nextButton);
-		
+		*/
 		
 		leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -122,7 +122,7 @@ public class MyTunesGUIPanel extends JPanel
 		leftPanel.add(songInfoPanel);
 		leftPanel.add(playlistScrollPane);
 		
-		this.add(leftPanel, BorderLayout.CENTER);
+		this.add(leftPanel, BorderLayout.WEST);
 		
 		
 		//GRID
@@ -146,6 +146,7 @@ public class MyTunesGUIPanel extends JPanel
 		
 		JPanel musicSquarePanel = new JPanel();
 		musicSquarePanel.setLayout(new GridLayout(playList.getSongSquare().length, playList.getSongSquare().length));
+		//musicSquarePanel.setLayout(new GridLayout(4, 5));
 		
 		for (int row = 0; row < musicSquareButtons.length; row++)
 		{
@@ -154,8 +155,8 @@ public class MyTunesGUIPanel extends JPanel
 				musicSquarePanel.add(musicSquareButtons[row][col]);
 			}
 		}
-		
-		this.add(musicSquarePanel, BorderLayout.EAST);
+				
+		this.add(musicSquarePanel, BorderLayout.CENTER);
 		//.............................
 		
 		//scrollBar.setForeground(Style.SECONDARY_BACKBROUND_COLOR);
