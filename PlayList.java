@@ -337,16 +337,38 @@ public class PlayList implements MyTunesPlayListInterface
 
 	@Override
 	public int moveUp(int index)
-	{
+	{	
+		
 		// TODO Auto-generated method stub
-		return 0;
+		if (index >= 1 && index < songList.size())
+		{
+			Song selectedSong = songList.get(index);
+			Song previousSong = songList.get(index-1);
+			songList.set(index-1, selectedSong);
+			songList.set(index, previousSong);
+			return index - 1;
+		}
+		else
+		{
+			return index;
+		}
 	}
 
 	@Override
 	public int moveDown(int index)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		if (index >= 0 && index < songList.size()-1)
+		{
+			Song selectedSong = songList.get(index);
+			Song previousSong = songList.get(index+1);
+			songList.set(index + 1, selectedSong);
+			songList.set(index, previousSong);
+			return index + 1;
+		}
+		else
+		{
+			return index;
+		}
 	}
 
 	@Override

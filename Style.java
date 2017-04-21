@@ -2,6 +2,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
 public final class Style
 {
 	public static final Color ACCENT_COLOR = new Color(13, 71, 161);
@@ -16,4 +19,5 @@ public final class Style
 	public static final Dimension MUSIC_SQUARE_DIMENSION = new Dimension(100, 100);
 	
 	public static final Font HEADING1_FONT = new Font("arial", Font.BOLD, 16);
+	public static final Border DEFAULT_BORDER = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 }

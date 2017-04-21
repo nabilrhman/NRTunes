@@ -34,13 +34,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.ColorUIResource;
 
-import net.miginfocom.swing.MigLayout;
-
 @SuppressWarnings("serial")
 public class MyTunesGUIPanel extends JPanel
 {
 	/** The data representing the list of photos in the album (the "model") */
 	private PlayList playList;
+	private Song[] songs;
 	private File songFile;
 
 	/** The GUI representation of the list of photos in the album (the "view") */
@@ -49,6 +48,7 @@ public class MyTunesGUIPanel extends JPanel
 	private JLabel nowPlayingLabel;
 	private JLabel nowPlayingTitleLabel; 
 	private JLabel nowPlayingArtistLabel;
+	private JLabel nowPlayingTimerLabel;
 	
 	private JLabel playlistNameLabel;
 	private JLabel totalPlaytimeLabel;
@@ -75,52 +75,33 @@ public class MyTunesGUIPanel extends JPanel
 	private JPanel musicSquarePanel;
 	private JButton[][] musicSquareButtons;
 	
-	private Object panelBackground;
-	private Object panelForeground;
-	private Object buttonBackground;
-	private Object buttonForeground;
-	private Object buttonSelect;
-	private Object buttonFocus;
-	private Object buttonBorder;
+	private Object defaultPanelBackground;
+	private Object defaultPanelForeground;
+	private Object defaultButtonBackground;
+	private Object defaultButtonForeground;
+	private Object defaultButtonSelect;
+	private Object defaultButtonFocus;
+	private Object defaultButtonBorder;
+	private Object defaultLabelForeground;
 	
 	public MyTunesGUIPanel()
 	{	
-		panelBackground = UIManager.get("Panel.background");
-		panelForeground = UIManager.get("Panel.foreground");
-		buttonBackground = UIManager.get("Button.background");
-		buttonForeground = UIManager.get("Button.foreground");
-		buttonSelect = UIManager.get("Button.select");
-		buttonFocus = UIManager.get("Button.focus");
-		buttonBorder = UIManager.get("Button.border");
+		defaultPanelBackground = UIManager.get("Panel.background");
+		defaultPanelForeground = UIManager.get("Panel.foreground");
+		defaultButtonBackground = UIManager.get("Button.background");
+		defaultButtonForeground = UIManager.get("Button.foreground");
+		defaultButtonSelect = UIManager.get("Button.select");
+		defaultButtonFocus = UIManager.get("Button.focus");
+		defaultButtonBorder = UIManager.get("Button.border");
+		defaultLabelForeground = UIManager.get("Label.foreground");
 		
-		UIManager.put("Panel.background", Style.PRIMARY_BACKBROUND_COLOR);
-		UIManager.put("Panel.foreground", Style.PRIMARY_FONT_COLOR);
-		
-		UIManager.put("Button.background", Style.SECONDARY_BACKBROUND_COLOR);
-		UIManager.put("Button.foreground", Style.PRIMARY_FONT_COLOR);
-		
-		UIManager.put("Button.select", Style.BUTTON_SELECT_COLOR);
-		UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
-			
-		UIManager.put("Button.border", BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Style.PRIMARY_BACKBROUND_COLOR), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-		/*
-		UIManager.put("Button.foreground", Style.PRIMARY_FONT_COLOR);
-		UIManager.put("Button.foreground", Style.PRIMARY_FONT_COLOR);
-		UIManager.put("Button.foreground", Style.PRIMARY_FONT_COLOR);
-		
-		Button.darkShadow
-		
-		
-		Button.highlight
-		Button.light
-		Button.select
-		Button.shadow
-		*/
+		setModifiedUIStyle();	
 		this.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
 		
 		this.setLayout(new BorderLayout());
 		
 		playList = new PlayList("New Playlist", "playlist.txt");
+		songs = playList.getSongArray();
 		uiSongList = new JList();
 		uiSongList.setListData(playList.getSongArray());
 		uiSongList.addListSelectionListener(new UiSongListSelectionListener());
@@ -145,22 +126,33 @@ public class MyTunesGUIPanel extends JPanel
 		*/
 		
 		songInfoPanel = new JPanel();
+		songInfoPanel.setBorder(Style.DEFAULT_BORDER);
+		
+		
 		songInfoPanel.setLayout(new BoxLayout(songInfoPanel, BoxLayout.Y_AXIS));
-		//songInfoPanel.setLayout();		
+		
+		//songInfoPanel.setLayout(new GridLayout(1,1));
 		songInfoPanel.setBackground(Style.ACCENT_COLOR);
 		
 		nowPlayingLabel = new JLabel("Now playing");
-		nowPlayingLabel.setForeground(Style.PRIMARY_FONT_COLOR);
-		
-		nowPlayingTitleLabel = new JLabel("SONG TITLE");
+		nowPlayingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		nowPlayingLabel.setBorder(Style.DEFAULT_BORDER);
+						
+		nowPlayingTitleLabel = new JLabel("SONG TITLE .. .. .. . ... ");
+		nowPlayingTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		nowPlayingTitleLabel.setFont(Style.HEADING1_FONT);
-		nowPlayingTitleLabel.setForeground(Style.PRIMARY_FONT_COLOR);
 		
 		nowPlayingArtistLabel = new JLabel("Song Artist");
-		nowPlayingArtistLabel.setBackground(Style.ACCENT_COLOR);
-		nowPlayingArtistLabel.setOpaque(true);
+		nowPlayingArtistLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		nowPlayingTimerLabel = new JLabel("10:00");
+		nowPlayingTimerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		nowPlayingTimerLabel.setFont(Style.HEADING1_FONT);
+		nowPlayingTimerLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+				
 		JPanel playerControlPanel = new JPanel();
+		playerControlPanel.setBorder(Style.DEFAULT_BORDER);
+		playerControlPanel.setBackground(Style.ACCENT_COLOR);
 		playButton = new JButton("Play");
 		stopButton = new JButton("Stop");
 		nextButton = new JButton("Next");
@@ -170,18 +162,22 @@ public class MyTunesGUIPanel extends JPanel
 		playerControlPanel.add(nextButton);
 		playerControlPanel.add(previousButton);
 			
-		nowPlayingArtistLabel.setForeground(Style.PRIMARY_FONT_COLOR);
+		//nowPlayingArtistLabel.setForeground(Style.PRIMARY_FONT_COLOR);
 		songInfoPanel.add(nowPlayingLabel);
 		songInfoPanel.add(nowPlayingTitleLabel);
 		songInfoPanel.add(nowPlayingArtistLabel);
+		songInfoPanel.add(nowPlayingTimerLabel);
 		songInfoPanel.add(playerControlPanel);
 		
 		JPanel playlistControlPanel = new JPanel();
+		
 		addButton = new JButton("Add");
 		addButton.addActionListener(new AddButtonListener());
 		removeButton = new JButton("Remove");
 		moveUpButton = new JButton("Move Up");
+		moveUpButton.addActionListener(new PlayerControlListener());
 		moveDownButton = new JButton("Move Down");
+		moveDownButton.addActionListener(new PlayerControlListener());
 		playlistControlPanel.add(addButton);
 		playlistControlPanel.add(removeButton);
 		playlistControlPanel.add(moveUpButton);
@@ -190,11 +186,9 @@ public class MyTunesGUIPanel extends JPanel
 		JPanel playlistInfoPanel = new JPanel();
 		
 		playlistNameLabel = new JLabel();
-		playlistNameLabel.setForeground(Style.PRIMARY_FONT_COLOR);
 		playlistNameLabel.setText(playList.getName());
 		
 		totalPlaytimeLabel = new JLabel();
-		totalPlaytimeLabel.setForeground(Style.PRIMARY_FONT_COLOR);
 		totalPlaytimeLabel.setText("| Playtime: " + Integer.toString(playList.getTotalPlayTime()));
 		playlistInfoPanel.add(playlistNameLabel);
 		playlistInfoPanel.add(totalPlaytimeLabel);
@@ -338,6 +332,55 @@ public class MyTunesGUIPanel extends JPanel
 		
 	}
 	
+	public void setDefaultUIStyle()
+	{
+		UIManager.put("Panel.background", defaultPanelBackground);
+		UIManager.put("Panel.foreground", defaultPanelForeground);
+		
+		UIManager.put("Button.background", defaultButtonBackground);
+		UIManager.put("Button.foreground", defaultButtonForeground);
+		
+		UIManager.put("Button.select", defaultButtonSelect);
+		UIManager.put("Button.focus", defaultButtonFocus);
+			
+		UIManager.put("Button.border", defaultButtonBorder);
+		
+		UIManager.put("Label.foreground", defaultLabelForeground);
+	}
+	
+	public void setModifiedUIStyle()
+	{
+		UIManager.put("Panel.background", Style.PRIMARY_BACKBROUND_COLOR);
+		UIManager.put("Panel.foreground", Style.PRIMARY_FONT_COLOR);
+		
+		UIManager.put("Button.background", Style.SECONDARY_BACKBROUND_COLOR);
+		UIManager.put("Button.foreground", Style.PRIMARY_FONT_COLOR);
+		
+		UIManager.put("Button.select", Style.BUTTON_SELECT_COLOR);
+		UIManager.put("Button.focus", new ColorUIResource(new Color(0, 0, 0, 0)));
+			
+		UIManager.put("Button.border", BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Style.PRIMARY_BACKBROUND_COLOR), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		UIManager.put("Label.foreground", Style.PRIMARY_FONT_COLOR);
+		/*
+		UIManager.put("Button.foreground", Style.PRIMARY_FONT_COLOR);
+		UIManager.put("Button.foreground", Style.PRIMARY_FONT_COLOR);
+		UIManager.put("Button.foreground", Style.PRIMARY_FONT_COLOR);
+		
+		Button.darkShadow
+		
+		
+		Button.highlight
+		Button.light
+		Button.select
+		Button.shadow
+		*/
+	}
+	
+	public void refreshPlaylist()
+	{
+		
+	}
+	
 	private class UiSongListSelectionListener implements ListSelectionListener
 	{
 		/* (non-Javadoc)
@@ -346,8 +389,47 @@ public class MyTunesGUIPanel extends JPanel
 		@Override
 		public void valueChanged(ListSelectionEvent event)
 		{
-			System.out.println(uiSongList.getSelectedValue().getTitle());
-			System.out.println(uiSongList.getSelectedValue().getArtist());
+			if(uiSongList.getSelectedIndex() >= 0)
+			{
+				System.out.println(uiSongList.getSelectedValue().getTitle());
+				System.out.println(uiSongList.getSelectedValue().getArtist());
+			}
+		}
+	}
+	
+	private class PlayerControlListener implements ActionListener
+	{
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent event)
+		{
+			// Find index of photo that is currently selected.
+			int index = uiSongList.getSelectedIndex();
+			
+			if(event.getSource() == moveUpButton)
+            {	
+				playList.moveUp(index);
+				uiSongList.setListData(playList.getSongArray());
+				
+				if(index - 1 >= 0)
+					uiSongList.setSelectedIndex(index-1);
+				else
+					uiSongList.setSelectedIndex(index);
+            }
+            else if(event.getSource() == moveDownButton)
+            {
+            	playList.moveDown(index);
+            	uiSongList.setListData(playList.getSongArray());
+            	
+            	if(index + 1 < playList.getSongArray().length)
+					uiSongList.setSelectedIndex(index+1);
+				else
+					uiSongList.setSelectedIndex(index);
+            }
+			
+			
 		}
 	}
 	
@@ -360,18 +442,8 @@ public class MyTunesGUIPanel extends JPanel
 		public void actionPerformed(ActionEvent event)
 		{
 			if(event.getSource() == addButton)
-            {
-				UIManager.put("Panel.background", panelBackground);
-				UIManager.put("Panel.foreground", panelForeground);
-				
-				UIManager.put("Button.background", buttonBackground);
-				UIManager.put("Button.foreground", buttonForeground);
-				
-				UIManager.put("Button.select", buttonSelect);
-				UIManager.put("Button.focus", buttonFocus);
-					
-				UIManager.put("Button.border", buttonBorder);
-				
+            {	
+				setDefaultUIStyle();
             	JPanel formPanel = new JPanel();
             	formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
             	Song song;
@@ -398,7 +470,8 @@ public class MyTunesGUIPanel extends JPanel
         		// very good. We could make sure they didn't enter an empty name. We could keep asking
         		// them for valid input.
         		if (result == JOptionPane.OK_OPTION)
-        		{     			        			
+        		{   
+        			
         			if(songFile.exists()) 
         			{
         				song = new Song(titleField.getText(), artistField.getText(), Integer.parseInt(playtimeField.getText()), songFile.getAbsolutePath());
@@ -408,37 +481,41 @@ public class MyTunesGUIPanel extends JPanel
         			} 
         			else 
         			{
+        				
         				System.err.println("File not found:: ");
         			}
+        			
         		
         		}
+        		setModifiedUIStyle();
   
 			}
 
 		}
 		
-		private class FileChooserButtonActionListener implements ActionListener
+	}
+	
+	private class FileChooserButtonActionListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent event)
 		{
-			@Override
-			public void actionPerformed(ActionEvent event)
-			{
-				
-				// The following starts in the home folder
-				//JFileChooser chooser = new JFileChooser();
-				
-				// The following starts in the current folder, which is often convenient
-				JFileChooser chooser = new JFileChooser(".");
-				
-				int status = chooser.showOpenDialog(null);
+			
+			// The following starts in the home folder
+			//JFileChooser chooser = new JFileChooser();
+			
+			// The following starts in the current folder, which is often convenient
+			JFileChooser chooser = new JFileChooser(".");
+			
+			int status = chooser.showOpenDialog(null);
 
-				if (status != JFileChooser.APPROVE_OPTION) 
-				{
-					songFilePath.setText("No File Chosen");
-				} 
-				else 
-				{
-					songFile = chooser.getSelectedFile();
-				}
+			if (status != JFileChooser.APPROVE_OPTION) 
+			{
+				songFilePath.setText("No File Chosen");
+			} 
+			else 
+			{
+				songFile = chooser.getSelectedFile();
 			}
 		}
 	}
