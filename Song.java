@@ -1,7 +1,14 @@
 import java.applet.AudioClip;
 import java.applet.Applet;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
+
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
+import javazoom.jl.player.advanced.AdvancedPlayer;
 /**
  * The <code>Song</code> class represents a song. Each song
  * has a title, artist, play time, and file path.
@@ -30,6 +37,11 @@ public class Song
 	private int playTime; // in seconds
 	private String filePath;
 	private int playCount;
+	
+	private AdvancedPlayer mp3Player;
+	private Thread mp3PlayerThread;
+	private BufferedInputStream mp3BufferedInputStream;
+	private File mp3File;
 
 	/**
 	 * Constructor: Builds a song using the given parameters.
@@ -47,14 +59,26 @@ public class Song
 		this.playCount = 0;
 
 		String fullPath = new File(filePath).getAbsolutePath();
-		try 
+		
+		if(!getFileExtension(fullPath).equalsIgnoreCase("mp3"))
 		{
-			this.clip = Applet.newAudioClip(new URL("file:" + fullPath));
-		} catch(Exception e) 
-		{
-			System.out.println("Error loading sound clip for " + fullPath);
-			System.out.println(e.getMessage());
+			
+			try 
+			{
+				this.clip = Applet.newAudioClip(new URL("file:" + fullPath));
+			} catch(Exception e) 
+			{
+				System.out.println("Error loading sound clip for " + fullPath);
+				System.out.println(e.getMessage());
+			}
 		}
+		else if(getFileExtension(fullPath).equalsIgnoreCase("mp3"))
+		{
+			
+			mp3File = new File(filePath);
+		}
+		
+		
 	}
 
 	/**
@@ -145,9 +169,44 @@ public class Song
 	 */
 	public void play()
 	{
-		if(clip != null) 
+		if(!getFileExtension(filePath).equalsIgnoreCase("mp3") && clip != null) 
 		{
 			clip.play();
+			playCount++;
+		}
+		else if(getFileExtension(filePath).equalsIgnoreCase("mp3"))
+		{
+			try
+			{
+				try
+				{
+					FileInputStream fileInputStream = new FileInputStream(mp3File);
+					mp3BufferedInputStream = new BufferedInputStream(fileInputStream);
+					mp3Player = new AdvancedPlayer(mp3BufferedInputStream);
+				}
+				catch (JavaLayerException e)
+				{
+					System.out.println("Couldn't create mp3 player for the specified file.");
+				}
+				
+				mp3PlayerThread = new Thread() {
+			        public void run() {
+			            try 
+			            {
+			                    mp3Player.play();
+			            }
+			            catch (JavaLayerException e) 
+			            {
+			            	e.printStackTrace(); 
+			            }
+			        }
+			    };
+			    mp3PlayerThread.start();
+			    
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 			playCount++;
 		}
 	}
@@ -157,10 +216,31 @@ public class Song
 	 */
 	public void stop()
 	{
-		if(clip != null) 
+		if(!getFileExtension(filePath).equalsIgnoreCase("mp3") && clip != null) 
 		{
 			clip.stop();
 		}
+		else if(mp3Player != null)
+		{
+			mp3Player.close();
+			
+		}
+	}
+	
+	public void pause()
+	{
+		if(clip != null)
+		{
+			try
+			{
+				clip.wait();
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
 	}
 
 	/* (non-Javadoc)
@@ -169,7 +249,42 @@ public class Song
 	@Override
 	public String toString()
 	{
-		return String.format(" " + "%-20s %-20s %-25s %10d" + " ",
-				title, artist, filePath, playTime);
+		String mTitle = title;
+		String mArtist = artist;
+		String mFilePath = filePath;
+		
+		if(title.length() > 20)
+		{
+			mTitle = title.substring(0, 20 - 3) + "...";
+		}
+		if(artist.length() > 20)
+		{
+			mArtist = artist.substring(0, 20 - 3) + "...";
+		}
+		if(filePath.length() > 30)
+		{
+			mFilePath = filePath.substring(0, 22 - 3) + "...";
+		}
+		
+		return String.format(" " + "%-20s %-20s %-22s %9d" + " ",
+				mTitle, mArtist, mFilePath, playTime);
+	}
+	
+	/**
+	 * Returns file extension given a file path.
+	 * @param filePath the path of the file
+	 * @return file extension
+	 */
+	public String getFileExtension(String filePath)
+	{
+		String extension = "";
+
+		int i = filePath.lastIndexOf('.');
+		if (i >= 0) 
+		{
+		    extension = filePath.substring(i+1);
+		}
+		
+		return extension.trim();
 	}
 }

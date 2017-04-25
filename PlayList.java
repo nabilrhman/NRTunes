@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
+import javazoom.jl.player.advanced.AdvancedPlayer;
+
 /**
  * This class manages songs in a simplified play list.
  * 
@@ -17,7 +19,7 @@ public class PlayList implements MyTunesPlayListInterface
 	private String name;
 	private Song playing;
 	private ArrayList<Song> songList;
-
+	
 	/**
 	 * Constructor: Instantiates a play list given its name.
 	 * 
@@ -285,7 +287,7 @@ public class PlayList implements MyTunesPlayListInterface
 					int colon = playtime.indexOf(':');
 					int minutes = Integer.parseInt(playtime.substring(0, colon));
 					int seconds = Integer.parseInt(playtime.substring(colon + 1));
-					int playTime = (minutes * 60) + seconds;
+					int playTime = convertColonFormattedPlaytimeToSec(playtime);
 
 					Song song = new Song(title, artist, playTime, songPath);
 					
@@ -309,6 +311,7 @@ public class PlayList implements MyTunesPlayListInterface
 		// TODO Auto-generated method stub
 		if (songList.contains(song))
 		{
+			playing = song;
 			song.play();
 		}
 
@@ -318,7 +321,11 @@ public class PlayList implements MyTunesPlayListInterface
 	public void stop()
 	{
 		// TODO Auto-generated method stub
-		playing.stop();
+		if(playing != null)
+		{
+			playing.stop();
+			playing = null;
+		}
 
 	}
 
@@ -375,34 +382,89 @@ public class PlayList implements MyTunesPlayListInterface
 	public Song[][] getSongSquare()
 	{
 		// TODO Auto-generated method stub
+		Song[][] grid = new Song[5][5];
 		
 		int NCOLS = 0;
 		
 		int number = songList.size();
-		
-		double sqrt = Math.sqrt(number);
-		
-		if(Math.pow((int) Math.sqrt(number), 2) == number)
+		if(number > 0)
 		{
-			NCOLS = (int) Math.sqrt(number);
-		}
-		else
-		{
-			NCOLS = (int) Math.ceil(sqrt);
-		}
-		
-		final int NROWS = NCOLS;
-		final int MAXVAL= songList.size();
-		
-		Song[][] grid = new Song[NROWS][NCOLS];
-		for (int row = 0; row < grid.length; row++)
-		{
-			for(int col = 0; col < grid[row].length; col++)
+			double sqrt = Math.sqrt(number);
+			
+			if(Math.pow((int) Math.sqrt(number), 2) == number)
 			{
-				grid[row][col] = songList.get((col + row * grid[row].length) % (MAXVAL));
+				NCOLS = (int) Math.sqrt(number);
+			}
+			else
+			{
+				NCOLS = (int) Math.ceil(sqrt);
+			}
+			
+			final int NROWS = NCOLS;
+			final int MAXVAL= songList.size();
+			
+			
+			for (int row = 0; row < grid.length; row++)
+			{
+				for(int col = 0; col < grid[row].length; col++)
+				{
+					grid[row][col] = songList.get((col + row * grid[row].length) % (MAXVAL));
+				}
 			}
 		}
 		return grid;
 		
 	}
+	
+	public int getIndex(Song song)
+	{
+		int index = 0;
+		for(int i = 0; i < songList.size(); i++)
+		{
+			if(songList.get(i) == song)
+			{
+				index = i;
+			}
+		}
+		return index;
+	}
+	
+	public void playNextSong()
+	{
+		int index = 0;
+		if(playing != null)
+		{
+			index = getIndex(playing);
+			stop();
+			if(index + 1 >= 0 && index + 1 < songList.size())
+			{
+				playSong(index + 1);
+			}
+		}		
+	}
+	
+	public void playPreviousSong()
+	{
+		int index = 0;
+		if(playing != null)
+		{
+			index = getIndex(playing);
+			stop();
+			if(index - 1 >= 0 && index - 1 < songList.size())
+			{
+				playSong(index - 1);
+			}
+		}		
+	}
+	
+	public int convertColonFormattedPlaytimeToSec(String playtime)
+	{
+		int colon = playtime.indexOf(':');
+		int minutes = Integer.parseInt(playtime.substring(0, colon));
+		int seconds = Integer.parseInt(playtime.substring(colon + 1));
+		int playTime = (minutes * 60) + seconds;
+		
+		return playTime;
+	}
+	
 }
