@@ -39,6 +39,12 @@ public final class Style
 	public static String MOVE_UP_ICON = "\u25B2";
 	public static String MOVE_DOWN_ICON = "\u25BC";
 	
+	public static final Color COLOR1 = SECONDARY_BACKBROUND_COLOR;
+	public static final Color COLOR2 = new Color(28,42,65);
+	public static final Color COLOR3 = new Color(23,52,97);
+	public static final Color COLOR4 = new Color(18,61,120);
+	public static final Color COLOR5 = ACCENT_COLOR;
+	
 	
 	
 }

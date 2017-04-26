@@ -31,6 +31,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -115,6 +118,24 @@ public class MyTunesGUIPanel extends JPanel
 	
 	private JButton[][] musicSquareButtons;
 	
+	private JMenuBar menuBar;
+	private JMenu fileMenu;
+	private JMenuItem openPlaylistMenuItem;
+	private JMenuItem savePlaylistMenuItem;
+	private JMenuItem exitMenuItem;
+	private JMenu playlistMenu;
+	private JMenuItem addMenuItem;
+	private JMenuItem removeMenuItem;
+	private JMenuItem moveUpMenuItem;
+	private JMenuItem moveDownMenuItem;
+	private JMenu controlMenu;
+	private JMenuItem playtMenuItem;
+	private JMenuItem stopMenuItem;
+	private JMenuItem nextMenuItem;
+	private JMenuItem previoustMenuItem;
+	private JMenu HelpMenu;
+	private JMenuItem aboutMenuItem;
+	
 	private Object defaultPanelBackground;
 	private Object defaultPanelForeground;
 	private Object defaultButtonBackground;
@@ -173,8 +194,8 @@ public class MyTunesGUIPanel extends JPanel
 				 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
 		
-		playlistScrollPane.setMinimumSize(new Dimension(550, 415));
-		playlistScrollPane.setMaximumSize(new Dimension(550, 415));
+		playlistScrollPane.setMinimumSize(new Dimension(550, 450));
+		playlistScrollPane.setMaximumSize(new Dimension(550, 450));
 		
 		
 		//JScrollBar scrollBar = playlistScrollPane.getVerticalScrollBar();
@@ -281,8 +302,8 @@ public class MyTunesGUIPanel extends JPanel
 		JPanel playlistInfoPanel = new JPanel();
 		
 		playlistInfoPanel.setLayout(new MigLayout("insets 0, fill"));
-		playlistInfoPanel.setMinimumSize(new Dimension(550, 165));
-		playlistInfoPanel.setMaximumSize(new Dimension(550, 40));
+		playlistInfoPanel.setMinimumSize(new Dimension(550, 35));
+		playlistInfoPanel.setMaximumSize(new Dimension(550, 35));
 		//playlistInfoPanel.setLayout(new MigLayout("insets 0","[right][left]",""));
 		
 		
@@ -323,6 +344,35 @@ public class MyTunesGUIPanel extends JPanel
 		
 		refreshMusicSquareButtons();
 		createMusicSquareButtons();
+		
+		//MENUBAR
+		menuBar = new JMenuBar();
+		   
+	    // build the File menu
+	    fileMenu = new JMenu("File");
+	    openPlaylistMenuItem = new JMenuItem("Open Playlist");
+	    savePlaylistMenuItem = new JMenuItem("Save Playlist");
+	    exitMenuItem = new JMenuItem("Exit");
+	    //loadPlaylistMenuItem.addActionListener(this);
+	    fileMenu.add(openPlaylistMenuItem);
+	    fileMenu.add(savePlaylistMenuItem);
+	    fileMenu.addSeparator();
+	    fileMenu.add(exitMenuItem);
+	    /*
+	    // build the Edit menu
+	    editMenu = new JMenu("Edit");
+	    cutMenuItem = new JMenuItem("Cut");
+	    copyMenuItem = new JMenuItem("Copy");
+	    pasteMenuItem = new JMenuItem("Paste");
+	    editMenu.add(cutMenuItem);
+	    editMenu.add(copyMenuItem);
+	    editMenu.add(pasteMenuItem);
+		*/
+	    // add menus to menubar
+	    menuBar.add(fileMenu);
+	    //menuBar.add(editMenu);
+	    
+	    this.add(menuBar, BorderLayout.PAGE_START);
 		
 		
 	}
@@ -732,6 +782,7 @@ public class MyTunesGUIPanel extends JPanel
 					uiSongList.clearSelection();
 					
 			}
+			playlistNameLabel.setText(" " + "| " + playList.getName() + " - " + ConvertSecondToHHMMSSString(playList.getTotalPlayTime()));
 			
 			refreshMusicSquareButtons();
     		musicSquarePanel.removeAll();
@@ -858,7 +909,10 @@ public class MyTunesGUIPanel extends JPanel
 				updateSongInfoPanel();
 			}
 			refreshMusicSquareButtons();
-			createMusicSquareButtons();
+    		musicSquarePanel.removeAll();
+    		musicSquarePanel.invalidate();
+			createMusicSquareButtons();	
+			musicSquarePanel.revalidate();
 			
 			
 		}
@@ -884,6 +938,10 @@ public class MyTunesGUIPanel extends JPanel
 			}
 			else
 			{
+				nowPlayingTitleLabel.setText("No song playing".toUpperCase());
+				nowPlayingArtistLabel.setText("____________________");
+				nowPlayingTimerLabel.setText("00:00 / 00:00");
+				
 				playButton.setText(Style.PLAY_ICON);
 				if(nowPlayingTimer.isRunning() && animatingTimer.isRunning())
 				{
@@ -953,7 +1011,7 @@ public class MyTunesGUIPanel extends JPanel
 		     graphicsEnvironment.registerFont(robotoMonoFont);
 		     Style.PRIMARY_FONT = moderneSansFont.deriveFont(12f);
 		     Style.HEADING1_FONT = moderneSansFont.deriveFont(Font.BOLD, 16f);
-		     Style.HEADING2_FONT = moderneSansFont.deriveFont(Font.BOLD, 14f);
+		     Style.HEADING2_FONT = robotoMonoFont.deriveFont(Font.BOLD, 14f);
 		     Style.LIST_FONT = robotoMonoFont.deriveFont(11f);
 		} catch (IOException|FontFormatException e) 
 		{
@@ -969,7 +1027,7 @@ public class MyTunesGUIPanel extends JPanel
 
          // The range of colors our heat map will pass through. This can be modified if you
          // want a different color scheme.
-         Color[] colors = { Style.SECONDARY_BACKBROUND_COLOR, Style.ACCENT_COLOR.darker().darker().darker(), Style.ACCENT_COLOR.darker().darker(), Style.ACCENT_COLOR.darker(), Style.ACCENT_COLOR};
+         Color[] colors = { Style.COLOR1, Style.COLOR2, Style.COLOR3, Style.COLOR4, Style.COLOR5};
          int index1, index2; // Our color will lie between these two colors.
          float dist = 0;     // Distance between "index1" and "index2" where our value is.
 
