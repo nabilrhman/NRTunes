@@ -31,5 +31,7 @@ public class MyTunesGUI
 		frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
+		
 	}
+	
 }

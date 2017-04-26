@@ -1,5 +1,8 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +36,15 @@ public class PlayList implements MyTunesPlayListInterface
 		playing = null;
 		songList = new ArrayList<Song>();
 		loadFromFile(new File(filePath));
+
+	}
+	
+	public PlayList(String name)
+	{
+
+		this.name = name;
+		playing = null;
+		songList = new ArrayList<Song>();
 
 	}
 
@@ -276,23 +288,25 @@ public class PlayList implements MyTunesPlayListInterface
 			try
 			{
 				Scanner scan = new Scanner(file);
+				String playlistName = scan.nextLine().trim();
 				while (scan.hasNextLine())
 				{
 					String title = scan.nextLine().trim();
 					
 					String artist = scan.nextLine().trim();
-					String playtime = scan.nextLine().trim();
+					String playtime = scan.nextLine().trim();			
+
+					
+					int playTime = convertColonFormattedPlaytimeToSec(playtime);
+					
+					int playCount = Integer.parseInt(scan.nextLine().trim());
 					String songPath = scan.nextLine().trim();
 
-					int colon = playtime.indexOf(':');
-					int minutes = Integer.parseInt(playtime.substring(0, colon));
-					int seconds = Integer.parseInt(playtime.substring(colon + 1));
-					int playTime = convertColonFormattedPlaytimeToSec(playtime);
-
-					Song song = new Song(title, artist, playTime, songPath);
+					Song song = new Song(title, artist, playTime, playCount, songPath);
 					
 					songList.add(song);
 				}
+				setName(playlistName);
 				scan.close();
 			} catch (FileNotFoundException e)
 			{
@@ -302,6 +316,63 @@ public class PlayList implements MyTunesPlayListInterface
 		{
 			System.err.println("Playlist not found:: " + file);
 		}
+
+	}
+	
+	public void saveToFile(String filePath)
+	{
+		
+			BufferedWriter bufferedWriter = null;
+			FileWriter fileWriter = null;
+			String content = "";
+			try {
+
+				content = getName();
+				
+				for(Song song : songList)
+				{
+					content += "\n" + song.getTitle();
+					content += "\n" + song.getArtist();
+					content += "\n" + ConvertSecondToHHMMSSString(song.getPlayTime());
+					content += "\n" + song.getPlayCount();
+					content += "\n" + song.getFilePath();
+				}
+				
+				fileWriter = new FileWriter(filePath);
+				bufferedWriter = new BufferedWriter(fileWriter);
+				bufferedWriter.write(content);
+
+				System.out.println("Playlist saved to " + filePath);
+
+			}
+			catch (IOException e) 
+			{
+
+				e.printStackTrace();
+
+			}
+			finally 
+			{
+
+				try 
+				{
+
+					if (bufferedWriter != null)
+						bufferedWriter.close();
+
+					if (fileWriter != null)
+						fileWriter.close();
+
+				} 
+				catch (IOException ex) 
+				{
+
+					ex.printStackTrace();
+
+				}
+
+			}
+		
 
 	}
 
@@ -381,9 +452,16 @@ public class PlayList implements MyTunesPlayListInterface
 	@Override
 	public Song[][] getSongSquare()
 	{
-		// TODO Auto-generated method stub
-		Song[][] grid = new Song[5][5];
-		
+		Song[][] grid;
+		if(getNumSongs() <= 25)
+		{
+			grid = new Song[5][5];
+		}
+		else
+		{
+			grid = new Song[10][10];
+		}
+			
 		int NCOLS = 0;
 		
 		int number = songList.size();
@@ -465,6 +543,23 @@ public class PlayList implements MyTunesPlayListInterface
 		int playTime = (minutes * 60) + seconds;
 		
 		return playTime;
+	}
+	
+	private String ConvertSecondToHHMMSSString(int nSecondTime) 
+	{
+		String time;
+		String format = String.format("%%0%dd", 2);
+		
+        long elapsedTime = nSecondTime;
+        String seconds = String.format(format, elapsedTime % 60);
+        String minutes = String.format(format, (elapsedTime % 3600) / 60);
+        String hours = String.format(format, elapsedTime / 3600);
+        
+        if(elapsedTime / 3600 != 0)
+        	time =  hours + ":" + minutes + ":" + seconds;
+        else
+        	time =  minutes + ":" + seconds;
+        return time;
 	}
 	
 }

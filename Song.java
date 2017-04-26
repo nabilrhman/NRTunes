@@ -80,6 +80,37 @@ public class Song
 		
 		
 	}
+	
+	public Song(String title, String artist, int playTime, int playCount, String filePath)
+	{
+		this.title = title;
+		this.artist = artist;
+		this.playTime = playTime;
+		this.filePath = filePath;
+		this.playCount = playCount;
+
+		String fullPath = new File(filePath).getAbsolutePath();
+		
+		if(!getFileExtension(fullPath).equalsIgnoreCase("mp3"))
+		{
+			
+			try 
+			{
+				this.clip = Applet.newAudioClip(new URL("file:" + fullPath));
+			} catch(Exception e) 
+			{
+				System.out.println("Error loading sound clip for " + fullPath);
+				System.out.println(e.getMessage());
+			}
+		}
+		else if(getFileExtension(fullPath).equalsIgnoreCase("mp3"))
+		{
+			
+			mp3File = new File(filePath);
+		}
+		
+		
+	}
 
 	/**
 	 * Returns the title of this <code>Song</code>.
@@ -266,8 +297,8 @@ public class Song
 			mFilePath = filePath.substring(0, 22 - 3) + "...";
 		}
 		
-		return String.format(" " + "%-20s %-20s %-22s %9d" + " ",
-				mTitle, mArtist, mFilePath, playTime);
+		return String.format(" " + "%-20s %-20s %-22s %9s" + " ",
+				mTitle, mArtist, mFilePath, ConvertSecondToHHMMSSString(playTime));
 	}
 	
 	/**
@@ -286,5 +317,22 @@ public class Song
 		}
 		
 		return extension.trim();
+	}
+	
+	private String ConvertSecondToHHMMSSString(int nSecondTime) 
+	{
+		String time;
+		String format = String.format("%%0%dd", 2);
+		
+        long elapsedTime = nSecondTime;
+        String seconds = String.format(format, elapsedTime % 60);
+        String minutes = String.format(format, (elapsedTime % 3600) / 60);
+        String hours = String.format(format, elapsedTime / 3600);
+        
+        if(elapsedTime / 3600 != 0)
+        	time =  hours + ":" + minutes + ":" + seconds;
+        else
+        	time =  minutes + ":" + seconds;
+        return time;
 	}
 }
