@@ -11,10 +11,14 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -87,7 +91,7 @@ public class MyTunesGUIPanel extends JPanel
 	private JPanel songInfoPanel;
 	private JPanel playlistHeatmapGradientPanel;
 
-	private JButton playButton;
+	private JButton playStopButton;
 	private JButton nextButton;
 	private JButton previousButton;
 
@@ -102,6 +106,7 @@ public class MyTunesGUIPanel extends JPanel
 
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
+	private JMenuItem newPlaylistMenuItem;
 	private JMenuItem openPlaylistMenuItem;
 	private JMenuItem savePlaylistMenuItem;
 	private JMenuItem exitMenuItem;
@@ -114,10 +119,10 @@ public class MyTunesGUIPanel extends JPanel
 	private JMenuItem moveDownMenuItem;
 	
 	private JMenu playbackMenu;
-	private JMenuItem playtMenuItem;
+	private JMenuItem playMenuItem;
 	private JMenuItem stopMenuItem;
 	private JMenuItem nextMenuItem;
-	private JMenuItem previoustMenuItem;
+	private JMenuItem previousMenuItem;
 	
 	private JMenu helpMenu;
 	private JMenuItem aboutMenuItem;
@@ -225,10 +230,10 @@ public class MyTunesGUIPanel extends JPanel
 
 		PlayerControlActionListener playerControlActionListener = new PlayerControlActionListener();
 
-		playButton = new JButton("Play");
-		setIcon(playButton);
-		playButton.addActionListener(playerControlActionListener);
-		addChangeListenerToButton(playButton);
+		playStopButton = new JButton("Play");
+		setIcon(playStopButton);
+		playStopButton.addActionListener(playerControlActionListener);
+		addChangeListenerToButton(playStopButton);
 
 		nextButton = new JButton("Next");
 		setIcon(nextButton);
@@ -241,7 +246,7 @@ public class MyTunesGUIPanel extends JPanel
 		addChangeListenerToButton(previousButton);
 
 		playerControlPanel.add(previousButton);
-		playerControlPanel.add(playButton);
+		playerControlPanel.add(playStopButton);
 		playerControlPanel.add(nextButton);
 
 		// nowPlayingArtistLabel.setForeground(Style.PRIMARY_FONT_COLOR);
@@ -363,6 +368,8 @@ public class MyTunesGUIPanel extends JPanel
 		fileMenu = new JMenu("File");
 		MenuBarItemActionListener menuBarItemActionListener = new MenuBarItemActionListener();
 
+		newPlaylistMenuItem = new JMenuItem("New playlist");
+		newPlaylistMenuItem.addActionListener(menuBarItemActionListener);
 		openPlaylistMenuItem = new JMenuItem("Open playlist");
 		openPlaylistMenuItem.addActionListener(menuBarItemActionListener);
 		savePlaylistMenuItem = new JMenuItem("Save playlist");
@@ -370,6 +377,8 @@ public class MyTunesGUIPanel extends JPanel
 		exitMenuItem = new JMenuItem("Exit");
 		exitMenuItem.addActionListener(menuBarItemActionListener);
 		// loadPlaylistMenuItem.addActionListener(this);
+		fileMenu.add(newPlaylistMenuItem);
+		fileMenu.addSeparator();
 		fileMenu.add(openPlaylistMenuItem);
 		fileMenu.add(savePlaylistMenuItem);
 		fileMenu.addSeparator();
@@ -378,6 +387,7 @@ public class MyTunesGUIPanel extends JPanel
 		playlistMenu = new JMenu("Playlist");
 		
 		editPlaylistNameMenuItem = new JMenuItem("Edit playlist name");
+		editPlaylistNameMenuItem.addActionListener(menuBarItemActionListener);
 	    addMenuItem = new JMenuItem("Add new song");
 	    addMenuItem.addActionListener(menuBarItemActionListener);
 	    removeMenuItem = new JMenuItem("Remove song");
@@ -393,6 +403,24 @@ public class MyTunesGUIPanel extends JPanel
 	    playlistMenu.addSeparator();
 	    playlistMenu.add(moveUpMenuItem);
 	    playlistMenu.add(moveDownMenuItem);
+	    
+	    playbackMenu = new JMenu("Playback");
+	    
+	    playMenuItem = new JMenuItem("Play");
+	    playMenuItem.addActionListener(menuBarItemActionListener);
+	    stopMenuItem = new JMenuItem("Stop");
+	    stopMenuItem.setEnabled(false);
+	    stopMenuItem.addActionListener(menuBarItemActionListener);
+	    nextMenuItem = new JMenuItem("Next");
+	    nextMenuItem.addActionListener(menuBarItemActionListener);
+	    previousMenuItem = new JMenuItem("Previous");
+	    previousMenuItem.addActionListener(menuBarItemActionListener);
+	    playbackMenu.add(playMenuItem);
+	    playbackMenu.add(stopMenuItem);
+	    playbackMenu.addSeparator();
+	    playbackMenu.add(nextMenuItem);
+	    playbackMenu.add(previousMenuItem);
+	    		
 
 		helpMenu = new JMenu("Help");
 		aboutMenuItem = new JMenuItem("About");
@@ -408,6 +436,7 @@ public class MyTunesGUIPanel extends JPanel
 		// add menus to menubar
 		menuBar.add(fileMenu);
 		menuBar.add(playlistMenu);
+		menuBar.add(playbackMenu);
 		menuBar.add(helpMenu);
 
 		// menuBar.add(editMenu);
@@ -889,7 +918,19 @@ public class MyTunesGUIPanel extends JPanel
 
 				// The following starts in the current folder, which is often
 				// convenient
-				JFileChooser chooser = new JFileChooser(".");
+				JFileChooser chooser = new JFileChooser(".")
+						{
+							@Override
+				            protected javax.swing.JDialog createDialog(java.awt.Component parent) throws java.awt.HeadlessException {
+				                javax.swing.JDialog dialog = super.createDialog(parent);
+		
+				                dialog.setIconImage(new
+				                        javax.swing.ImageIcon("res/icon.png").getImage());
+		
+				                return dialog;
+		
+				            }
+		        		};
 
 				int status = chooser.showOpenDialog(null);
 
@@ -946,7 +987,7 @@ public class MyTunesGUIPanel extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			if (event.getSource() == playButton)
+			if (event.getSource() == playStopButton)
 			{
 
 				if (playList.getPlaying() == null)
@@ -1012,13 +1053,13 @@ public class MyTunesGUIPanel extends JPanel
 
 						if (playList.getPlaying() != null)
 						{
-							playButton.doClick();
+							playStopButton.doClick();
 							uiSongList.setSelectedValue(songSquares[row][col], true);
-							playButton.doClick();
+							playStopButton.doClick();
 						} else
 						{
 							uiSongList.setSelectedValue(songSquares[row][col], true);
-							playButton.doClick();
+							playStopButton.doClick();
 						}
 
 					}
@@ -1035,34 +1076,112 @@ public class MyTunesGUIPanel extends JPanel
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			
-			if(event.getSource() == savePlaylistMenuItem)
+			if(event.getSource() == newPlaylistMenuItem)
 			{
-				setDefaultUIStyle();
-				String fileName = "";
-				JFileChooser chooser = new JFileChooser(".");
-				chooser.setFileFilter(new FileNameExtensionFilter("Txt file","txt"));
-				int status = chooser.showSaveDialog(null);
-				
-				System.out.println(fileName);
-				
-				if (status == JFileChooser.APPROVE_OPTION) 
+				if(playStopButton.getText().equalsIgnoreCase(Style.STOP_ICON))
 				{
-					
-					fileName = chooser.getSelectedFile().toString();
-					if (!fileName.endsWith(".txt"))
-				        fileName += ".txt";
-					
-
-					playList.saveToFile(fileName);
-					
+					playStopButton.doClick();
 				}
+				playList = new PlayList("New Playlist");
+				uiSongList.setListData(playList.getSongArray());
+				playlistNameLabel.setText(
+						" " + "| " + playList.getName() + " - " + ConvertSecondToHHMMSSString(playList.getTotalPlayTime()));
+				recreateMusicSquareButtons();
+			}
+			else if(event.getSource() == savePlaylistMenuItem)
+			{
+				JPanel formPanel = new JPanel();
+				formPanel.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+				formPanel.setLayout(new MigLayout("insets 0, fillx"));
+				
+
+				JTextField playlistNameField = new JTextField(40);
+				playlistNameField.setText(playList.getName());
+				playlistNameField.setAutoscrolls(true);
+
+				formPanel.add(new JLabel("Playlist Name"));
+				formPanel.add(playlistNameField, "growx, wrap");
+				
+				int result = JOptionPane.showConfirmDialog(null, formPanel, "Edit playlist name",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				if (result == JOptionPane.OK_OPTION)
+				{
+					JFrame frame = new JFrame();
+					if(playlistNameField.getText().isEmpty())
+					{
+						
+						JOptionPane.showMessageDialog(frame,
+						        new JLabel("Missing playlist name."),
+						        "Error",
+						        JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						playList.setName(playlistNameField.getText());
+						playlistNameLabel.setText(
+								" " + "| " + playList.getName() + " - " + ConvertSecondToHHMMSSString(playList.getTotalPlayTime()));
+						
+					} 
+
+					setDefaultUIStyle();
+					JFileChooser chooser = new JFileChooser(".")
+					{
+						@Override
+			            protected javax.swing.JDialog createDialog(java.awt.Component parent) throws java.awt.HeadlessException {
+			                javax.swing.JDialog dialog = super.createDialog(parent);
+
+			                dialog.setIconImage(new
+			                        javax.swing.ImageIcon("res/icon.png").getImage());
+
+			                return dialog;
+
+			            }
+	        		};
+	        		
+					
+					
+					String fileName = "";
+					
+					chooser.setFileFilter(new FileNameExtensionFilter("Txt file","txt"));
+					int status = chooser.showSaveDialog(null);
+					
+					System.out.println(fileName);
+					
+					if (status == JFileChooser.APPROVE_OPTION) 
+					{
+						
+						fileName = chooser.getSelectedFile().toString();
+						if (!fileName.endsWith(".txt"))
+					        fileName += ".txt";
+						
+
+						playList.saveToFile(fileName);
+						
+					}
+				}
+				
+				setModifiedUIStyle();
 			}
 			else if(event.getSource() == openPlaylistMenuItem)
 			{
+				setDefaultUIStyle();
+				JFileChooser chooser = new JFileChooser(".")
+				{
+					@Override
+		            protected javax.swing.JDialog createDialog(java.awt.Component parent) throws java.awt.HeadlessException {
+		                javax.swing.JDialog dialog = super.createDialog(parent);
+
+		                dialog.setIconImage(new
+		                        javax.swing.ImageIcon("res/icon.png").getImage());
+
+		                return dialog;
+
+		            }
+        		};
+        		
 				
 				String fileName = "";
-				JFileChooser chooser = new JFileChooser(".");
 				chooser.setFileFilter(new FileNameExtensionFilter("Txt file","txt"));
 				int status = chooser.showOpenDialog(null);
 				
@@ -1084,6 +1203,7 @@ public class MyTunesGUIPanel extends JPanel
 				}
 				playlistNameLabel.setText(
 						" " + "| " + playList.getName() + " - " + ConvertSecondToHHMMSSString(playList.getTotalPlayTime()));
+				setModifiedUIStyle();
 			}
 			else if(event.getSource() == exitMenuItem)
 			{
@@ -1107,10 +1227,108 @@ public class MyTunesGUIPanel extends JPanel
 			}
 			else if(event.getSource() == editPlaylistNameMenuItem)
 			{
+				JPanel formPanel = new JPanel();
+				formPanel.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+				formPanel.setLayout(new MigLayout("insets 0, fillx"));
 				
-			}
-			setModifiedUIStyle();
 
+				JTextField playlistNameField = new JTextField(40);
+				playlistNameField.setText(playList.getName());
+				playlistNameField.setAutoscrolls(true);
+
+				formPanel.add(new JLabel("Playlist Name"));
+				formPanel.add(playlistNameField, "growx, wrap");
+				
+				int result = JOptionPane.showConfirmDialog(null, formPanel, "Edit playlist name",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+				if (result == JOptionPane.OK_OPTION)
+				{
+					JFrame frame = new JFrame();
+					if(playlistNameField.getText().isEmpty())
+					{
+						
+						JOptionPane.showMessageDialog(frame,
+						        new JLabel("Missing playlist name."),
+						        "Error",
+						        JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						playList.setName(playlistNameField.getText());
+						playlistNameLabel.setText(
+								" " + "| " + playList.getName() + " - " + ConvertSecondToHHMMSSString(playList.getTotalPlayTime()));
+						
+					} 
+				}
+			}
+			else if(event.getSource() == playMenuItem)
+			{
+				playStopButton.doClick();
+			}
+			else if(event.getSource() == stopMenuItem)
+			{
+				playStopButton.doClick();
+			}
+			else if(event.getSource() == nextMenuItem)
+			{
+				nextButton.doClick();
+			}
+			else if(event.getSource() == previousMenuItem)
+			{
+				previousButton.doClick();
+			}
+			else if(event.getSource() == aboutMenuItem)
+			{
+				JPanel mainPanel = new JPanel();
+				mainPanel.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+				mainPanel.setLayout(new MigLayout("insets 0, fill"));
+				
+				JLabel logoImageLabel = new JLabel();
+				
+				BufferedImage logo;
+				try
+				{
+					logo = ImageIO.read(new File("res/icon.png"));
+					logoImageLabel = new JLabel(new ImageIcon(logo));
+				} catch (IOException e)
+				{
+					
+					e.printStackTrace();
+				}
+				
+				JPanel imagePanel = new JPanel();
+				imagePanel.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+				imagePanel.setLayout(new MigLayout("insets 0, fillx"));
+				imagePanel.add(logoImageLabel);
+				
+				JPanel labelPanel = new JPanel();
+				labelPanel.setBackground(Style.PRIMARY_BACKBROUND_COLOR);
+				labelPanel.setLayout(new MigLayout("insets 0, fillx"));
+
+				JTextField playlistNameField = new JTextField(40);
+				playlistNameField.setText(playList.getName());
+				playlistNameField.setAutoscrolls(true);
+
+				JLabel applicationNameLabel = new JLabel("NR Tunes");
+				applicationNameLabel.setFont(Style.HEADING2_FONT);
+				
+				labelPanel.add(applicationNameLabel, "growx, wrap");
+				labelPanel.add(new JLabel("Version: 1.0 Beta"), "growx, wrap");
+				labelPanel.add(new JLabel("Developed by Nabil Rahman"), "gapTop 5, growx, wrap");
+				labelPanel.add(new JLabel("This application was developed as the final project for"), "gapTop 5, growx, wrap");
+				labelPanel.add(new JLabel("CS121 - Spring 2017, Boise State University"), "growx, wrap");
+				labelPanel.add(new JLabel("www.nr-creation.com"), "gapTop 5, growx, wrap");
+				
+				mainPanel.add(imagePanel, "gapRight 5, align left");
+				mainPanel.add(labelPanel, "growx"); 
+				
+				int result = JOptionPane.showConfirmDialog(null, mainPanel, "About",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+			}
+			
+			
+			
 			recreateMusicSquareButtons();
 
 		}
@@ -1121,7 +1339,9 @@ public class MyTunesGUIPanel extends JPanel
 	{
 		if (playList.getPlaying() != null)
 		{
-			playButton.setText(Style.STOP_ICON);
+			playStopButton.setText(Style.STOP_ICON);
+			playMenuItem.setEnabled(false);
+			stopMenuItem.setEnabled(true);
 			nowPlayingTitleLabel.setText(playList.getPlaying().getTitle().toUpperCase());
 			nowPlayingArtistLabel.setText(playList.getPlaying().getArtist().toUpperCase());
 			nowPlayingTimerLabel.setText("00:01 / " + ConvertSecondToHHMMSSString(playList.getPlaying().getPlayTime()));
@@ -1140,7 +1360,9 @@ public class MyTunesGUIPanel extends JPanel
 			nowPlayingArtistLabel.setText("____________________");
 			nowPlayingTimerLabel.setText("00:00 / 00:00");
 
-			playButton.setText(Style.PLAY_ICON);
+			playStopButton.setText(Style.PLAY_ICON);
+			playMenuItem.setEnabled(true);
+			stopMenuItem.setEnabled(false);
 			if (nowPlayingTimer.isRunning() && animatingTimer.isRunning())
 			{
 				stopTimer();
@@ -1201,8 +1423,8 @@ public class MyTunesGUIPanel extends JPanel
 	{
 		try
 		{
-			Font moderneSansFont = Font.createFont(Font.TRUETYPE_FONT, new File(".//res//moderne-sans.ttf"));
-			Font robotoMonoFont = Font.createFont(Font.TRUETYPE_FONT, new File(".//res//roboto-mono.ttf"));
+			Font moderneSansFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/moderne-sans.ttf"));
+			Font robotoMonoFont = Font.createFont(Font.TRUETYPE_FONT, new File("res/roboto-mono.ttf"));
 			GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			graphicsEnvironment.registerFont(moderneSansFont);
 			graphicsEnvironment.registerFont(robotoMonoFont);

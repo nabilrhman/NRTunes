@@ -1,5 +1,8 @@
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
@@ -24,11 +27,19 @@ public class MyTunesGUI
 			e.printStackTrace();
 		}
 
-		JFrame frame = new JFrame("MyTunes");
+		JFrame frame = new JFrame("NR Tunes");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(new MyTunesGUIPanel());
 		frame.setPreferredSize(new Dimension(1200, 650));
 		frame.setResizable(false);
+		try 
+		{
+		    frame.setIconImage(ImageIO.read(new File("res/icon.png")));
+		}
+		catch (IOException e) 
+		{
+		    e.printStackTrace();
+		}
 		frame.pack();
 		frame.setVisible(true);
 		
