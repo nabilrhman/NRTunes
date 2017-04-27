@@ -24,10 +24,12 @@ public class PlayList implements MyTunesPlayListInterface
 	private ArrayList<Song> songList;
 
 	/**
-	 * Constructor: Instantiates a play list given its name.
+	 * Constructor: Instantiates a play list given its name and its path.
 	 * 
 	 * @param name
 	 *            The name of the play list
+	 * @param filePath
+	 *            The path of the play list
 	 */
 	public PlayList(String name, String filePath)
 	{
@@ -39,6 +41,12 @@ public class PlayList implements MyTunesPlayListInterface
 
 	}
 
+	/**
+	 * Constructor: Instantiates a play list given its name.
+	 * 
+	 * @param name
+	 *            The name of the play list
+	 */
 	public PlayList(String name)
 	{
 
@@ -323,6 +331,27 @@ public class PlayList implements MyTunesPlayListInterface
 
 	}
 
+	/**
+	 * Saves play list to a specified file. The file must have the following
+	 * format:
+	 * 
+	 * <pre>
+	 * Song 1 Title
+	 * Song 1 Artist
+	 * Song 1 Play time (mm:ss)
+	 * Song 1 Play count
+	 * Song 1 File path
+	 * Song 2 Title
+	 * Song 2 Artist
+	 * Song 2 Play time (mm:ss)
+	 * Song 2 Play count
+	 * Song 2 File path
+	 * etc.
+	 * </pre>
+	 * 
+	 * @param filePath
+	 *            The filepath to save play list to.
+	 */
 	public void saveToFile(String filePath)
 	{
 
@@ -497,6 +526,13 @@ public class PlayList implements MyTunesPlayListInterface
 
 	}
 
+	/**
+	 * Finds the index of the given song.
+	 * 
+	 * @param song
+	 *            The song to find its index
+	 * @return The index of the given song
+	 */
 	public int getIndex(Song song)
 	{
 		int index = 0;
@@ -510,6 +546,9 @@ public class PlayList implements MyTunesPlayListInterface
 		return index;
 	}
 
+	/**
+	 * Plays next song of the playlist.
+	 */
 	public void playNextSong()
 	{
 		int index = 0;
@@ -524,6 +563,9 @@ public class PlayList implements MyTunesPlayListInterface
 		}
 	}
 
+	/**
+	 * Plays previous song of the playlist.
+	 */
 	public void playPreviousSong()
 	{
 		int index = 0;
@@ -538,6 +580,13 @@ public class PlayList implements MyTunesPlayListInterface
 		}
 	}
 
+	/**
+	 * Converts colon formatted string (HH:MM:SS) to seconds.
+	 * 
+	 * @param playtime
+	 *            in colon separated format
+	 * @return playtime in seconds
+	 */
 	public int convertColonFormattedPlaytimeToSec(String playtime)
 	{
 		int colon = playtime.indexOf(':');
@@ -548,6 +597,13 @@ public class PlayList implements MyTunesPlayListInterface
 		return playTime;
 	}
 
+	/**
+	 * Converts seconds to colon formatted string (HH:MM:SS).
+	 * 
+	 * @param nSecondTime
+	 *            Time in seconds
+	 * @return The colon formatted string
+	 */
 	private String ConvertSecondToHHMMSSString(int nSecondTime)
 	{
 		String time;

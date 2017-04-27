@@ -89,6 +89,20 @@ public class Song
 
 	}
 
+	/**
+	 * Constructor: Builds a song using the given parameters.
+	 * 
+	 * @param title
+	 *            Song's title
+	 * @param artist
+	 *            Song's artist
+	 * @param playTime
+	 *            Song's length in seconds
+	 * @param playCount
+	 *            Song's play count
+	 * @param filePath
+	 *            Song file to load
+	 */
 	public Song(String title, String artist, int playTime, int playCount, String filePath)
 	{
 		this.title = title;
@@ -280,23 +294,6 @@ public class Song
 		}
 	}
 
-	public void pause()
-	{
-		if (clip != null)
-		{
-			try
-			{
-				clip.wait();
-			}
-			catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -317,7 +314,7 @@ public class Song
 		{
 			mArtist = artist.substring(0, 20 - 3) + "...";
 		}
-		if (filePath.length() > 30)
+		if (filePath.length() > 22)
 		{
 			mFilePath = filePath.substring(0, 22 - 3) + "...";
 		}
@@ -346,6 +343,13 @@ public class Song
 		return extension.trim();
 	}
 
+	/**
+	 * Converts seconds to colon formatted string (HH:MM:SS).
+	 * 
+	 * @param nSecondTime
+	 *            Time in seconds
+	 * @return The colon formatted string
+	 */
 	private String ConvertSecondToHHMMSSString(int nSecondTime)
 	{
 		String time;

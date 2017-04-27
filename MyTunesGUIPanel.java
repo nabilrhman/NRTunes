@@ -52,6 +52,17 @@ import org.jaudiotagger.tag.TagException;
 
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * This class implements the GUI for the audio player.
+ * 
+ * The audio player can play files in wav and mp3 format. The playlist can be
+ * loaded from and saved to txt file. Also, it can be modified as per user's
+ * desire. The player implements music square grid buttons which can be used to
+ * play any song on the playlist.
+ * 
+ * @author Nabil Rahman
+ *
+ */
 @SuppressWarnings("serial")
 public class MyTunesGUIPanel extends JPanel
 {
@@ -136,6 +147,10 @@ public class MyTunesGUIPanel extends JPanel
 	private Object defaultLabelForeground;
 	private Object defaultLabelFont;
 
+	/**
+	 * Instantiates all the variables needed for the GUI and adds all of the
+	 * components to the JPanel.
+	 */
 	public MyTunesGUIPanel()
 	{
 		initializeCustomFonts();
@@ -157,7 +172,9 @@ public class MyTunesGUIPanel extends JPanel
 
 		this.setLayout(new BorderLayout());
 
-		playList = new PlayList("New Playlist");
+		playList = new PlayList("New Playlist", "playlist.txt");
+		// playList = new PlayList("New Playlist");
+
 		songs = playList.getSongArray();
 
 		nowPlayingTimer = new Timer(0, new NowPlayingTimerActionListener());
@@ -324,7 +341,7 @@ public class MyTunesGUIPanel extends JPanel
 		rightPanel.add(playlistHeatmapGradientPanel, BorderLayout.NORTH);
 
 		// Song Grid Panel Starts
-		refreshSongData();
+		reloadSongData();
 		createMusicSquareButtons();
 
 		this.add(rightPanel, BorderLayout.CENTER);
@@ -401,12 +418,18 @@ public class MyTunesGUIPanel extends JPanel
 
 	}
 
-	private void refreshSongData()
+	/**
+	 * Reloads song arrays.
+	 */
+	private void reloadSongData()
 	{
 		songs = playList.getSongArray();
 		songSquares = playList.getSongSquare();
 	}
 
+	/**
+	 * Creates squared music buttons in grid.
+	 */
 	private void createMusicSquareButtons()
 	{
 		if (songSquares.length > 0)
@@ -425,9 +448,9 @@ public class MyTunesGUIPanel extends JPanel
 						musicSquareButtons[row][col].setText(playList.getSongSquare()[row][col].getTitle());
 						musicSquareButtons[row][col]
 								.setBackground(getHeatMapColor(playList.getSongSquare()[row][col].getPlayCount()));
-						//musicSquareButtons[row][col].setRolloverEnabled(false);
 						musicSquareButtons[row][col].addActionListener(musicSquareButtonActionListener);
-						addChangeListenerToSquareButton(musicSquareButtons[row][col], getHeatMapColor(playList.getSongSquare()[row][col].getPlayCount()));
+						addChangeListenerToSquareButton(musicSquareButtons[row][col],
+								getHeatMapColor(playList.getSongSquare()[row][col].getPlayCount()));
 
 					}
 					catch (Exception ex)
@@ -462,9 +485,12 @@ public class MyTunesGUIPanel extends JPanel
 		rightPanel.add(musicSquarePanel, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Recreates squared music buttons in grid.
+	 */
 	public void recreateMusicSquareButtons()
 	{
-		refreshSongData();
+		reloadSongData();
 		musicSquarePanel.setVisible(false);
 		musicSquarePanel.removeAll();
 		musicSquarePanel.invalidate();
@@ -475,6 +501,9 @@ public class MyTunesGUIPanel extends JPanel
 		musicSquarePanel.setVisible(true);
 	}
 
+	/**
+	 * Updates the song info panel.
+	 */
 	private void updateSongInfoPanel()
 	{
 		if (playList.getPlaying() != null)
@@ -500,6 +529,7 @@ public class MyTunesGUIPanel extends JPanel
 			nowPlayingTitleLabel.setText("No song playing".toUpperCase());
 			nowPlayingArtistLabel.setText("---------------------------------");
 			nowPlayingTimerLabel.setText("00:00 / 00:00");
+			songInfoPanel.setBackground(Style.ACCENT_COLOR);
 
 			playStopButton.setText(Style.PLAY_ICON);
 			playMenuItem.setEnabled(true);
@@ -509,9 +539,15 @@ public class MyTunesGUIPanel extends JPanel
 				stopTimer();
 			}
 		}
-		refreshSongData();
+		reloadSongData();
 	}
 
+	/**
+	 * Sets the icon of the given button.
+	 * 
+	 * @param button
+	 *            The button that needs icon.
+	 */
 	private void setIcon(JButton button)
 	{
 		button.setFont(Style.DEFAULT_FONT);
@@ -547,19 +583,9 @@ public class MyTunesGUIPanel extends JPanel
 
 	}
 
-	public String getFileExtension(String filePath)
-	{
-		String extension = "";
-
-		int i = filePath.lastIndexOf('.');
-		if (i >= 0)
-		{
-			extension = filePath.substring(i + 1);
-		}
-
-		return extension.trim();
-	}
-
+	/**
+	 * Initializes all the custom fonts.
+	 */
 	public void initializeCustomFonts()
 	{
 		try
@@ -580,6 +606,13 @@ public class MyTunesGUIPanel extends JPanel
 		}
 	}
 
+	/**
+	 * Returns heat map color given the play count.
+	 * 
+	 * @param plays
+	 *            The play count of the song.
+	 * @return the heat map color
+	 */
 	private Color getHeatMapColor(int plays)
 	{
 		final int MAX_PLAYS = 250;
@@ -614,6 +647,9 @@ public class MyTunesGUIPanel extends JPanel
 		return new Color(r, g, b);
 	}
 
+	/**
+	 * Sets the current UI style to the default UI style.
+	 */
 	private void setDefaultUIStyle()
 	{
 		UIManager.put("Panel.background", defaultPanelBackground);
@@ -635,6 +671,9 @@ public class MyTunesGUIPanel extends JPanel
 		UIManager.put("Label.font", defaultLabelFont);
 	}
 
+	/**
+	 * Sets the UI style to modified UI style.
+	 */
 	private void setModifiedUIStyle()
 	{
 		UIManager.put("Panel.background", Style.PRIMARY_BACKBROUND_COLOR);
@@ -656,6 +695,33 @@ public class MyTunesGUIPanel extends JPanel
 		UIManager.put("Label.font", Style.PRIMARY_FONT);
 	}
 
+	/**
+	 * Returns file extension given a file path.
+	 * 
+	 * @param filePath
+	 *            The path of the file
+	 * @return file extension
+	 */
+	public String getFileExtension(String filePath)
+	{
+		String extension = "";
+
+		int i = filePath.lastIndexOf('.');
+		if (i >= 0)
+		{
+			extension = filePath.substring(i + 1);
+		}
+
+		return extension.trim();
+	}
+
+	/**
+	 * Adds change listener to button. This is needed to implements the effects
+	 * of the buttons.
+	 * 
+	 * @param button
+	 *            The button that needs change listener added
+	 */
 	private void addChangeListenerToButton(JButton button)
 	{
 		Color oldButtonBackground = button.getBackground();
@@ -683,15 +749,24 @@ public class MyTunesGUIPanel extends JPanel
 		});
 	}
 
+	/**
+	 * Adds change listener to squared music button. This is needed to
+	 * implements the effects of the buttons.
+	 * 
+	 * @param button
+	 *            The button that needs change listener added
+	 * @param color
+	 *            The background color of that button
+	 */
 	private void addChangeListenerToSquareButton(JButton button, Color color)
 	{
 		button.getModel().addChangeListener(new ChangeListener()
 		{
-			
+
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
-				
+
 				if (button.getModel().isRollover())
 				{
 					button.setBackground(color.brighter());
@@ -711,6 +786,13 @@ public class MyTunesGUIPanel extends JPanel
 
 	}
 
+	/**
+	 * Converts seconds to colon formatted string (HH:MM:SS).
+	 * 
+	 * @param nSecondTime
+	 *            Time in seconds
+	 * @return The colon formatted string
+	 */
 	private String ConvertSecondToHHMMSSString(int nSecondTime)
 	{
 		String time;
@@ -728,6 +810,12 @@ public class MyTunesGUIPanel extends JPanel
 		return time;
 	}
 
+	/**
+	 * Starts all the timers.
+	 * 
+	 * @param timeInSeconds
+	 *            The timer duration in seconds
+	 */
 	private void startTimer(int timeInSeconds)
 	{
 		nowPlayingTime = 1;
@@ -736,6 +824,9 @@ public class MyTunesGUIPanel extends JPanel
 		animatingTimer.start();
 	}
 
+	/**
+	 * Stops all the timers.
+	 */
 	private void stopTimer()
 	{
 		nowPlayingTimer.stop();
@@ -773,7 +864,6 @@ public class MyTunesGUIPanel extends JPanel
 			}
 		}
 	}
-
 
 	private class PlaylistControllerActionListener implements ActionListener
 	{
@@ -905,8 +995,8 @@ public class MyTunesGUIPanel extends JPanel
 					}
 					else
 					{
-						song = new Song(titleField.getText(), artistField.getText(),
-								playList.convertColonFormattedPlaytimeToSec(playtimeField.getText()),
+						song = new Song(titleField.getText().trim(), artistField.getText().trim(),
+								playList.convertColonFormattedPlaytimeToSec(playtimeField.getText().trim()),
 								songFile.getAbsolutePath());
 						playList.addSong(song);
 						uiSongList.setListData(playList.getSongArray());
@@ -939,8 +1029,8 @@ public class MyTunesGUIPanel extends JPanel
 					}
 
 			}
-			playlistNameLabel.setText(
-					"  " + "I  " + playList.getName() + " - " + ConvertSecondToHHMMSSString(playList.getTotalPlayTime()));
+			playlistNameLabel.setText("  " + "I  " + playList.getName() + " - "
+					+ ConvertSecondToHHMMSSString(playList.getTotalPlayTime()));
 
 			recreateMusicSquareButtons();
 		}

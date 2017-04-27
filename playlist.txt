@@ -1,0 +1,36 @@
+Test Playlist
+MP3 - National Anthem of Bangladesh
+Instrumental
+01:34
+250
+res\sounds\bangladeshAnthem.mp3
+Classical
+A Classical Artist
+00:30
+100
+res\sounds\classical.wav
+Eighties Jam
+Some 80's band
+00:29
+50
+res\sounds\eightiesJam.wav
+New Age
+Javya
+00:30
+25
+res\sounds\newAgeRythm.wav
+Hitchcock
+The Birds
+00:29
+200
+res\sounds\hitchcock.wav
+My Truck is Dirty
+George Crooked
+00:29
+10
+res\sounds\westernBeat.wav
+Symphony No 5
+A Classical Artist
+00:10
+0
+res\sounds\classical.wav
