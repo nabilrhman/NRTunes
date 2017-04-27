@@ -22,7 +22,7 @@ public class PlayList implements MyTunesPlayListInterface
 	private String name;
 	private Song playing;
 	private ArrayList<Song> songList;
-	
+
 	/**
 	 * Constructor: Instantiates a play list given its name.
 	 * 
@@ -38,7 +38,7 @@ public class PlayList implements MyTunesPlayListInterface
 		loadFromFile(new File(filePath));
 
 	}
-	
+
 	public PlayList(String name)
 	{
 
@@ -136,7 +136,8 @@ public class PlayList implements MyTunesPlayListInterface
 			Song removedSong = songList.get(index);
 			songList.remove(index);
 			return removedSong;
-		} else
+		}
+		else
 			return null;
 	}
 
@@ -232,7 +233,8 @@ public class PlayList implements MyTunesPlayListInterface
 			songList = lastStateOfSongList;
 
 			return info;
-		} else
+		}
+		else
 			return "There are no songs.";
 	}
 
@@ -272,7 +274,8 @@ public class PlayList implements MyTunesPlayListInterface
 			{
 				playListInfo += "\n(" + songList.indexOf(song) + ") " + song.toString();
 			}
-		} else
+		}
+		else
 			playListInfo += "\nThere are no songs.";
 
 		playListInfo += "\n------------------";
@@ -292,87 +295,88 @@ public class PlayList implements MyTunesPlayListInterface
 				while (scan.hasNextLine())
 				{
 					String title = scan.nextLine().trim();
-					
-					String artist = scan.nextLine().trim();
-					String playtime = scan.nextLine().trim();			
 
-					
+					String artist = scan.nextLine().trim();
+					String playtime = scan.nextLine().trim();
+
 					int playTime = convertColonFormattedPlaytimeToSec(playtime);
-					
+
 					int playCount = Integer.parseInt(scan.nextLine().trim());
 					String songPath = scan.nextLine().trim();
 
 					Song song = new Song(title, artist, playTime, playCount, songPath);
-					
+
 					songList.add(song);
 				}
 				setName(playlistName);
 				scan.close();
-			} catch (FileNotFoundException e)
+			}
+			catch (FileNotFoundException e)
 			{
 				System.err.println("Could not read the playlist file: " + e.getMessage());
 			}
-		} else
+		}
+		else
 		{
 			System.err.println("Playlist not found:: " + file);
 		}
 
 	}
-	
+
 	public void saveToFile(String filePath)
 	{
-		
-			BufferedWriter bufferedWriter = null;
-			FileWriter fileWriter = null;
-			String content = "";
-			try {
 
-				content = getName();
-				
-				for(Song song : songList)
-				{
-					content += "\n" + song.getTitle();
-					content += "\n" + song.getArtist();
-					content += "\n" + ConvertSecondToHHMMSSString(song.getPlayTime());
-					content += "\n" + song.getPlayCount();
-					content += "\n" + song.getFilePath();
-				}
-				
-				fileWriter = new FileWriter(filePath);
-				bufferedWriter = new BufferedWriter(fileWriter);
-				bufferedWriter.write(content);
+		BufferedWriter bufferedWriter = null;
+		FileWriter fileWriter = null;
+		String content = "";
+		try
+		{
 
-				System.out.println("Playlist saved to " + filePath);
+			content = getName();
 
+			for (Song song : songList)
+			{
+				content += "\n" + song.getTitle();
+				content += "\n" + song.getArtist();
+				content += "\n" + ConvertSecondToHHMMSSString(song.getPlayTime());
+				content += "\n" + song.getPlayCount();
+				content += "\n" + song.getFilePath();
 			}
-			catch (IOException e) 
+
+			fileWriter = new FileWriter(filePath);
+			bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(content);
+
+			System.out.println("Playlist saved to " + filePath);
+
+		}
+		catch (IOException e)
+		{
+
+			e.printStackTrace();
+
+		}
+		finally
+		{
+
+			try
 			{
 
-				e.printStackTrace();
+				if (bufferedWriter != null)
+					bufferedWriter.close();
+
+				if (fileWriter != null)
+					fileWriter.close();
 
 			}
-			finally 
+			catch (IOException ex)
 			{
 
-				try 
-				{
-
-					if (bufferedWriter != null)
-						bufferedWriter.close();
-
-					if (fileWriter != null)
-						fileWriter.close();
-
-				} 
-				catch (IOException ex) 
-				{
-
-					ex.printStackTrace();
-
-				}
+				ex.printStackTrace();
 
 			}
-		
+
+		}
 
 	}
 
@@ -392,7 +396,7 @@ public class PlayList implements MyTunesPlayListInterface
 	public void stop()
 	{
 		// TODO Auto-generated method stub
-		if(playing != null)
+		if (playing != null)
 		{
 			playing.stop();
 			playing = null;
@@ -415,14 +419,14 @@ public class PlayList implements MyTunesPlayListInterface
 
 	@Override
 	public int moveUp(int index)
-	{	
-		
+	{
+
 		// TODO Auto-generated method stub
 		if (index >= 1 && index < songList.size())
 		{
 			Song selectedSong = songList.get(index);
-			Song previousSong = songList.get(index-1);
-			songList.set(index-1, selectedSong);
+			Song previousSong = songList.get(index - 1);
+			songList.set(index - 1, selectedSong);
 			songList.set(index, previousSong);
 			return index - 1;
 		}
@@ -435,10 +439,10 @@ public class PlayList implements MyTunesPlayListInterface
 	@Override
 	public int moveDown(int index)
 	{
-		if (index >= 0 && index < songList.size()-1)
+		if (index >= 0 && index < songList.size() - 1)
 		{
 			Song selectedSong = songList.get(index);
-			Song previousSong = songList.get(index+1);
+			Song previousSong = songList.get(index + 1);
 			songList.set(index + 1, selectedSong);
 			songList.set(index, previousSong);
 			return index + 1;
@@ -453,7 +457,7 @@ public class PlayList implements MyTunesPlayListInterface
 	public Song[][] getSongSquare()
 	{
 		Song[][] grid;
-		if(getNumSongs() <= 25)
+		if (getNumSongs() <= 25)
 		{
 			grid = new Song[5][5];
 		}
@@ -461,15 +465,15 @@ public class PlayList implements MyTunesPlayListInterface
 		{
 			grid = new Song[10][10];
 		}
-			
+
 		int NCOLS = 0;
-		
+
 		int number = songList.size();
-		if(number > 0)
+		if (number > 0)
 		{
 			double sqrt = Math.sqrt(number);
-			
-			if(Math.pow((int) Math.sqrt(number), 2) == number)
+
+			if (Math.pow((int) Math.sqrt(number), 2) == number)
 			{
 				NCOLS = (int) Math.sqrt(number);
 			}
@@ -477,89 +481,88 @@ public class PlayList implements MyTunesPlayListInterface
 			{
 				NCOLS = (int) Math.ceil(sqrt);
 			}
-			
+
 			final int NROWS = NCOLS;
-			final int MAXVAL= songList.size();
-			
-			
+			final int MAXVAL = songList.size();
+
 			for (int row = 0; row < grid.length; row++)
 			{
-				for(int col = 0; col < grid[row].length; col++)
+				for (int col = 0; col < grid[row].length; col++)
 				{
 					grid[row][col] = songList.get((col + row * grid[row].length) % (MAXVAL));
 				}
 			}
 		}
 		return grid;
-		
+
 	}
-	
+
 	public int getIndex(Song song)
 	{
 		int index = 0;
-		for(int i = 0; i < songList.size(); i++)
+		for (int i = 0; i < songList.size(); i++)
 		{
-			if(songList.get(i) == song)
+			if (songList.get(i) == song)
 			{
 				index = i;
 			}
 		}
 		return index;
 	}
-	
+
 	public void playNextSong()
 	{
 		int index = 0;
-		if(playing != null)
+		if (playing != null)
 		{
 			index = getIndex(playing);
 			stop();
-			if(index + 1 >= 0 && index + 1 < songList.size())
+			if (index + 1 >= 0 && index + 1 < songList.size())
 			{
 				playSong(index + 1);
 			}
-		}		
+		}
 	}
-	
+
 	public void playPreviousSong()
 	{
 		int index = 0;
-		if(playing != null)
+		if (playing != null)
 		{
 			index = getIndex(playing);
 			stop();
-			if(index - 1 >= 0 && index - 1 < songList.size())
+			if (index - 1 >= 0 && index - 1 < songList.size())
 			{
 				playSong(index - 1);
 			}
-		}		
+		}
 	}
-	
+
 	public int convertColonFormattedPlaytimeToSec(String playtime)
 	{
 		int colon = playtime.indexOf(':');
 		int minutes = Integer.parseInt(playtime.substring(0, colon));
 		int seconds = Integer.parseInt(playtime.substring(colon + 1));
 		int playTime = (minutes * 60) + seconds;
-		
+
 		return playTime;
 	}
-	
-	private String ConvertSecondToHHMMSSString(int nSecondTime) 
+
+	private String ConvertSecondToHHMMSSString(int nSecondTime)
 	{
 		String time;
 		String format = String.format("%%0%dd", 2);
-		
-        long elapsedTime = nSecondTime;
-        String seconds = String.format(format, elapsedTime % 60);
-        String minutes = String.format(format, (elapsedTime % 3600) / 60);
-        String hours = String.format(format, elapsedTime / 3600);
-        
-        if(elapsedTime / 3600 != 0)
-        	time =  hours + ":" + minutes + ":" + seconds;
-        else
-        	time =  minutes + ":" + seconds;
-        return time;
+
+		long elapsedTime = nSecondTime;
+		String seconds = String.format(format, elapsedTime % 60);
+		String minutes = String.format(format, (elapsedTime % 3600) / 60);
+		String hours = String.format(format, elapsedTime / 3600);
+
+		if (elapsedTime / 3600 != 0)
+			time = hours + ":" + minutes + ":" + seconds;
+		else
+			time = minutes + ":" + seconds;
+		return time;
 	}
-	
+
 }
