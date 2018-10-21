@@ -1122,7 +1122,7 @@ public class NRTunesGUIPanel extends JPanel
 
 				// The following starts in the current folder, which is often
 				// convenient
-				JFileChooser chooser = new JFileChooser(".")
+				JFileChooser chooser = new JFileChooser(Utils.getLastDir())
 				{
 					@Override
 					protected javax.swing.JDialog createDialog(java.awt.Component parent)
@@ -1147,6 +1147,8 @@ public class NRTunesGUIPanel extends JPanel
 					}
 				};
 
+
+
 				chooser.addChoosableFileFilter(new FileNameExtensionFilter("MP3/WAV file", "mp3", "wav"));
 				chooser.addChoosableFileFilter(new FileNameExtensionFilter("MP3 file", "mp3"));
 				chooser.addChoosableFileFilter(new FileNameExtensionFilter("WAV file", "wav"));
@@ -1156,6 +1158,8 @@ public class NRTunesGUIPanel extends JPanel
 
 				if (status == JFileChooser.APPROVE_OPTION)
 				{
+					Utils.setLastDir(chooser.getSelectedFile()); // Saves last know dir
+
 					songFile = chooser.getSelectedFile();
 					if (getFileExtension(songFile.getAbsolutePath()).equalsIgnoreCase("wav")
 							|| getFileExtension(songFile.getAbsolutePath()).equalsIgnoreCase("mp3"))
@@ -1369,7 +1373,7 @@ public class NRTunesGUIPanel extends JPanel
 					}
 
 					setDefaultUIStyle();
-					JFileChooser chooser = new JFileChooser(".")
+					JFileChooser chooser = new JFileChooser(Utils.getLastDir())
 					{
 						@Override
 						protected javax.swing.JDialog createDialog(java.awt.Component parent)
@@ -1403,6 +1407,7 @@ public class NRTunesGUIPanel extends JPanel
 					if (status == JFileChooser.APPROVE_OPTION)
 					{
 
+						Utils.setLastDir(chooser.getSelectedFile());
 						fileName = chooser.getSelectedFile().toString();
 						if (!fileName.endsWith(".npl"))
 							fileName += ".npl";
@@ -1424,7 +1429,7 @@ public class NRTunesGUIPanel extends JPanel
 					updateSongInfoPanel();
 				}
 
-				JFileChooser chooser = new JFileChooser(".")
+				JFileChooser chooser = new JFileChooser(Utils.getLastDir())
 				{
 					@Override
 					protected javax.swing.JDialog createDialog(java.awt.Component parent)
@@ -1456,7 +1461,7 @@ public class NRTunesGUIPanel extends JPanel
 
 				if (status == JFileChooser.APPROVE_OPTION)
 				{
-
+					Utils.setLastDir(chooser.getSelectedFile());
 					chooser.getSelectedFile();
 					playList = new PlayList("New Playlist");
 					try

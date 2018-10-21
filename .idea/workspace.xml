@@ -10,11 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37531cc1-61cd-4d27-9723-b03177078603" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NRTunesGUIPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/NRTunesGUIPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/NRTunes/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/NRTunes/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/NRTunes/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/NRTunes/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/NRTunes_jar/P5.jar" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -75,22 +74,22 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="96" />
+          <entry key="java" value="191" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="96" />
+          <entry key="JAVA" value="191" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="1" />
+          <entry key="java" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="1" />
+          <entry key="JAVA" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -122,8 +121,24 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NRTunesGUIPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2992">
-              <caret line="1537" column="16" selection-start-line="1537" selection-start-column="16" selection-end-line="1537" selection-end-column="41" />
+            <state relative-caret-position="164">
+              <caret line="1124" column="16" selection-start-line="1124" selection-start-column="16" selection-end-line="1124" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#376#377#0" expanded="true" />
+                <element signature="e#418#419#0" expanded="true" />
+                <element signature="e#513#514#0" expanded="true" />
+                <element signature="e#543#544#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -174,8 +189,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>AddRemove</find>
-      <find>playlistName</find>
       <find>playlistNameLabel</find>
       <find>---------------------------------</find>
       <find>---------</find>
@@ -204,6 +217,8 @@
       <find>playstop</find>
       <find>loadFr</find>
       <find>playStopButton</find>
+      <find>open</find>
+      <find>JFileChooser</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -222,6 +237,7 @@
         <option value="$PROJECT_DIR$/NRTunesPlayListInterface.java" />
         <option value="$PROJECT_DIR$/NRTunesGUI.java" />
         <option value="$PROJECT_DIR$/NRTunes.java" />
+        <option value="$PROJECT_DIR$/Utils.java" />
         <option value="$PROJECT_DIR$/NRTunesGUIPanel.java" />
       </list>
     </option>
@@ -280,7 +296,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540121769495" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540126908874" />
     <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -495,18 +511,17 @@
       <workItem from="1507794889894" duration="236000" />
       <workItem from="1540116420464" duration="4838000" />
       <workItem from="1540122812957" duration="218000" />
-      <workItem from="1540123377830" duration="1373000" />
+      <workItem from="1540123377830" duration="3349000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31884000" />
+    <option name="totallyTimeSpent" value="33860000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="8" y="31" width="1920" height="1017" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18817204" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18817204" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Nl-Palette" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -516,7 +531,7 @@
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4978701" weight="0.32962137" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.44731182" visible="true" weight="0.3216308" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.44731182" visible="true" weight="0.3216308" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4983871" weight="0.3997735" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -587,13 +602,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NRTunes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/META-INF/MANIFEST.MF">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -604,10 +612,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#376#377#0" expanded="true" />
+            <element signature="e#418#419#0" expanded="true" />
+            <element signature="e#513#514#0" expanded="true" />
+            <element signature="e#543#544#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NRTunes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/NRTunesGUIPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2992">
-          <caret line="1537" column="16" selection-start-line="1537" selection-start-column="16" selection-end-line="1537" selection-end-column="41" />
+        <state relative-caret-position="164">
+          <caret line="1124" column="16" selection-start-line="1124" selection-start-column="16" selection-end-line="1124" selection-end-column="16" />
         </state>
       </provider>
     </entry>
