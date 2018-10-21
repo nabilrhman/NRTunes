@@ -9,7 +9,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
-import javazoom.jl.player.advanced.AdvancedPlayer;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.audio.mp3.MP3FileReader;
+import org.jaudiotagger.tag.TagException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * This class manages songs in a simplified play list.
@@ -17,7 +24,7 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
  * @author Nabil Rahman
  *
  */
-public class PlayList implements MyTunesPlayListInterface
+public class PlayList implements NRTunesPlayListInterface
 {
 	private String name;
 	private Song playing;
@@ -323,6 +330,7 @@ public class PlayList implements MyTunesPlayListInterface
 			{
 				System.err.println("Could not read the playlist file: " + e.getMessage());
 			}
+
 		}
 		else
 		{
@@ -621,4 +629,13 @@ public class PlayList implements MyTunesPlayListInterface
 		return time;
 	}
 
+	public void checkIsPlayable(String filePath) throws IOException, UnsupportedAudioFileException, InvalidAudioFrameException, TagException, ReadOnlyFileException
+	{
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
+		MP3FileReader mp3FileReader = new MP3FileReader();
+		mp3FileReader.read(new File(filePath));
+	}
+
 }
+
+

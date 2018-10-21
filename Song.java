@@ -1,5 +1,6 @@
 import java.applet.AudioClip;
 import java.applet.Applet;
+import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -306,21 +307,42 @@ public class Song
 		String mArtist = artist;
 		String mFilePath = filePath;
 
-		if (title.length() > 20)
+		/*if(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth() >= 1920)
 		{
-			mTitle = title.substring(0, 20 - 3) + "...";
+			if (title.length() > 30)
+			{
+				mTitle = title.substring(0, 25 - 3) + "...";
+			}
+			if (artist.length() > 20)
+			{
+				mArtist = artist.substring(0, 20 - 3) + "...";
+			}
+			if (filePath.length() > 22)
+			{
+				mFilePath = filePath.substring(0, 22 - 3) + "...";
+			}
+			return String.format(" " + "%-30s %-20s %-22s %9s" + " ", mTitle, mArtist, mFilePath,
+					ConvertSecondToHHMMSSString(playTime));
 		}
-		if (artist.length() > 20)
-		{
-			mArtist = artist.substring(0, 20 - 3) + "...";
-		}
-		if (filePath.length() > 22)
-		{
-			mFilePath = filePath.substring(0, 22 - 3) + "...";
-		}
+		*/
+			if (title.length() > 20)
+			{
+				mTitle = title.substring(0, 20 - 3) + "...";
+			}
+			if (artist.length() > 20)
+			{
+				mArtist = artist.substring(0, 20 - 3) + "...";
+			}
+			if (filePath.length() > 22)
+			{
+				mFilePath = filePath.substring(0, 22 - 3) + "...";
+			}
 
-		return String.format(" " + "%-20s %-20s %-22s %9s" + " ", mTitle, mArtist, mFilePath,
-				ConvertSecondToHHMMSSString(playTime));
+			return String.format(" " + "%-20s %-20s %-22s %9s" + " ", mTitle, mArtist, mFilePath,
+					ConvertSecondToHHMMSSString(playTime));
+
+
+
 	}
 
 	/**

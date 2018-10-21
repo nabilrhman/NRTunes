@@ -33,17 +33,20 @@ public final class Style
 	public static Font HEADING1_FONT;
 	public static Font HEADING2_FONT;
 
-	public static final Border DEFAULT_BORDER = BorderFactory.createEmptyBorder(10, 10, 15, 10);
+	public static Font ICON_FONT;
 
-	public static String PLAY_ICON = "\u25B6";
-	public static String STOP_ICON = "\u25A0";
-	public static String NEXT_ICON = "\u25B6" + "|";
-	public static String PREVIOUS_ICON = "|" + "\u25C0";
+	public static final Border DEFAULT_BORDER = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
-	public static String ADD_ICON = "\u2795";
-	public static String REMOVE_ICON = "\u2796";
-	public static String MOVE_UP_ICON = "\u25B2";
-	public static String MOVE_DOWN_ICON = "\u25BC";
+	public static String PLAY_ICON = "\ue800";
+	public static String STOP_ICON = "\ue803";
+	public static String NEXT_ICON = "\ue802"; //+ "|";
+	public static String PREVIOUS_ICON = "\ue801";
+
+	//public static String ADD_ICON = "\u2795";
+	public static String ADD_ICON = "\ue808";
+	public static String REMOVE_ICON = "\ue809";
+	public static String MOVE_UP_ICON = "\ue804";
+	public static String MOVE_DOWN_ICON = "\ue805";
 
 	public static final Color COLOR1 = SECONDARY_BACKBROUND_COLOR;
 	public static final Color COLOR2 = new Color(24, 54, 78);
