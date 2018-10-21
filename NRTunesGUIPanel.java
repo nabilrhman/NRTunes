@@ -1417,6 +1417,13 @@ public class NRTunesGUIPanel extends JPanel
 			else if (event.getSource() == openPlaylistMenuItem)
 			{
 				setDefaultUIStyle();
+
+				if (playStopButton.getText().equalsIgnoreCase(Style.STOP_ICON))
+				{
+					playList.stop();
+					updateSongInfoPanel();
+				}
+
 				JFileChooser chooser = new JFileChooser(".")
 				{
 					@Override
@@ -1454,12 +1461,6 @@ public class NRTunesGUIPanel extends JPanel
 					playList = new PlayList("New Playlist");
 					try
 					{
-						/*if(playList.getPlaying() != null)
-						{
-
-							updateSongInfoPanel();
-						}*/
-						playList.stop();
 						playList.loadFromFile(chooser.getSelectedFile());
 					}
 					catch (Exception ex)
