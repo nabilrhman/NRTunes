@@ -1,4 +1,4 @@
-# Project 5: MyTunes GUI
+# NR Tunes
 
 * Author: Nabil Rahman
 * Class: CS121 Section 4
