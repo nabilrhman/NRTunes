@@ -3,6 +3,7 @@
 * Author: Nabil Rahman
 * Class: CS121 Section 4
 * Semester: Spring 2017
+* Website: http://nr-creation.com/portfolio/app/nr-tunes/
 
 ## Overview
 
@@ -85,6 +86,3 @@ like playing mp3s, saving and opening playlist, automated info gathering while a
 - I learned about JLayer from JavaZoom's website.
 [JLayer - JavaZOOM](http://www.javazoom.net/javalayer/javalayer.html)
 
-## Website
-
-http://nr-creation.com/portfolio/app/nr-tunes/
