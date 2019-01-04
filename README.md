@@ -13,9 +13,8 @@ a text based .npl format.
 
 ## Compiling and Using
 
-To use this application, import the project in Eclipse and then run it.
-As it uses 3rd party libraries, it doesn't get compiled using the javac command
-for packaging issues.
+The easiest way to use this application is to import the project in Eclipse and then run it.
+As it uses 3rd party libraries, the libraries have to be compiled with the java compiler before it can be run.
 
 If it shows any error, make sure to clean project and rebuild it before running.
 
