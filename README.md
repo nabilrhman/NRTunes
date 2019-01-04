@@ -9,7 +9,7 @@
 This Java application plays songs in wav and mp3 format
 and provides useful controls to add and remove songs from the
 playlist. It can also save, modify and load saved playlist in
-txt format.
+a text based .npl format.
 
 ## Compiling and Using
 
