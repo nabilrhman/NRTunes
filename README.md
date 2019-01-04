@@ -11,12 +11,14 @@ and provides useful controls to add and remove songs from the
 playlist. It can also save, modify and load saved playlist in
 a text based .npl format.
 
-## Compiling and Using
+## Compiling
 
 The easiest way to use this application is to import the project in Eclipse and then run it.
 As it uses 3rd party libraries, the libraries have to be compiled with the java compiler before it can be run.
 
 If it shows any error, make sure to clean project and rebuild it before running.
+
+The compiled application can also be downloaded from here: http://nr-creation.com/download/nrtunes/
 
 ## Discussion
 
@@ -86,7 +88,3 @@ like playing mp3s, saving and opening playlist, automated info gathering while a
 ## Website
 
 http://nr-creation.com/portfolio/app/nr-tunes/
-
-## Download
-
-http://nr-creation.com/download/nrtunes/
