@@ -83,3 +83,11 @@ like playing mp3s, saving and opening playlist, automated info gathering while a
 [MiG Layout Java Layout Manager for Swing and SWT](http://www.miglayout.com/)
 - I learned about JLayer from JavaZoom's website.
 [JLayer - JavaZOOM](http://www.javazoom.net/javalayer/javalayer.html)
+
+## Website
+
+http://nr-creation.com/portfolio/app/nr-tunes/
+
+## Download
+
+http://nr-creation.com/download/nrtunes/
