@@ -5,6 +5,10 @@
 * Semester: Spring 2017
 * Website: http://nr-creation.com/portfolio/app/nr-tunes/
 
+## Screenshot
+
+![Screenshot](screenshot.jpg)
+
 ## Overview
 
 This Java application plays songs in wav and mp3 format
