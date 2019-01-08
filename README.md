@@ -1,9 +1,9 @@
 # NR Tunes
+http://nr-creation.com/portfolio/app/nr-tunes/
 
 * Author: Nabil Rahman
 * Class: CS121 Section 4
 * Semester: Spring 2017
-* Website: http://nr-creation.com/portfolio/app/nr-tunes/
 
 ## Screenshot
 
