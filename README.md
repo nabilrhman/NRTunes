@@ -1,5 +1,4 @@
 # NR Tunes
-http://nr-creation.com/portfolio/app/nr-tunes/
 
 * Author: Nabil Rahman
 * Class: CS121 Section 4
@@ -22,8 +21,6 @@ The easiest way to use this application is to import the project in Eclipse and 
 As it uses 3rd party libraries, the libraries have to be compiled with the java compiler before it can be run.
 
 If it shows any error, make sure to clean project and rebuild it before running.
-
-The compiled application can also be downloaded from here: http://nr-creation.com/download/nrtunes/
 
 ## Discussion
 
